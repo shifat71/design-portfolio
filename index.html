@@ -117,15 +117,6 @@ figcaption{font-size:11px; color:var(--text-3); margin-top:7px; text-align:cente
 }
 .chip.live{background:var(--green-soft); color:var(--green)}
 
-/* flow */
-.flow{display:grid; grid-template-columns:repeat(auto-fit,minmax(122px,1fr)); gap:8px}
-.step{background:var(--surface); border:1px solid var(--line); border-radius:9px; padding:11px 12px 13px; display:flex; flex-direction:column; gap:3px}
-.step.gate{border-color:var(--accent); background:var(--accent-soft)}
-.step .n{font-size:10px; font-weight:600; letter-spacing:.1em; color:var(--text-3)}
-.step.gate .n{color:var(--accent)}
-.step h4{font-size:13px}
-.step p{font-size:12px; line-height:1.42; color:var(--text-2)}
-
 /* swatches */
 .swatches{display:grid; grid-template-columns:repeat(auto-fit,minmax(96px,1fr)); gap:10px}
 .sw .box{height:46px; border-radius:7px; border:1px solid var(--line-2)}
@@ -240,7 +231,7 @@ footer{border-top:1px solid var(--line); padding-block:22px 34px}
     <div class="sec-head">
       <div class="eyebrow">Selected work · 01</div>
       <h2>PinkTrack</h2>
-      <p class="lede">A live-tracking product for Dhaka&rsquo;s women-only buses — two Android apps, one for riders and one for drivers. Sole designer; I also built both UIs in Jetpack Compose on Firebase.</p>
+      <p class="lede">A live bus-tracking app for Dhaka&rsquo;s women-only routes. Sole designer, and I built the UI in Jetpack Compose on Firebase.</p>
     </div>
 
     <div class="gallery">
@@ -254,8 +245,8 @@ footer{border-top:1px solid var(--line); padding-block:22px 34px}
     </div>
 
     <div class="stack" style="margin-top:34px">
-      <div class="item"><div class="k">Problem</div><p>Tracking looks like a mapping problem. It isn&rsquo;t — <b>the data only exists if a driver presses start and leaves their phone alone for hours.</b> Every decision followed from that.</p></div>
-      <div class="item"><div class="k">Constraints</div><p>Few buses live at any moment, budget Android phones with aggressive battery killers, 2G dead zones, and a ৳15 price ceiling that rules out subscriptions and cards on file.</p></div>
+      <div class="item"><div class="k">Problem</div><p><b>Live data is sparse and often stale</b>, so the interface had to stay trustworthy on the many days it has almost nothing to show.</p></div>
+      <div class="item"><div class="k">Constraints</div><p>Budget Android phones, 2G dead zones, mixed-literacy bilingual users, and a ৳15 price ceiling that rules out subscriptions and cards on file.</p></div>
     </div>
 
     <h3 style="margin-top:38px">Decisions</h3>
@@ -264,27 +255,12 @@ footer{border-top:1px solid var(--line); padding-block:22px 34px}
       <div><h4>Green means live, only</h4><p>One saturated bar per screen, reserved system-wide for <em>happening right now</em>. Never decoration.</p></div>
       <div><h4><span class="chip">inactive</span> stays visible</h4><p>Dormant routes remain listed and labelled, so riders learn the network and expectations are set before the tap.</p></div>
       <div><h4>Speed builds trust</h4><p>The tracking sheet shows 1.0 km/h — a bus in traffic. The unflattering number proves the dot is live, not a confident-looking stale position.</p></div>
-      <div><h4>Unfollow is the primary action</h4><p>Camera-lock is easy to enter and annoying to escape, so the exit is the largest control on the sheet.</p></div>
       <div><h4>Priority by weight</h4><p><span class="chip live">service</span> is the only filled badge in the notices feed. Schedule changes are what a rider at a stop needs; offers recede.</p></div>
       <div><h4>Credits, not billing</h4><p>Prepaid top-up is the dominant money metaphor locally, and it sidesteps recurring card billing most users don&rsquo;t have.</p></div>
-      <div><h4>Words, not only icons</h4><p><em>Tap to see stoppages</em>, FROM, TO. For bilingual, mixed-literacy users, icons carry recognition but words carry certainty.</p></div>
     </div>
-
-    <h3 style="margin-top:42px">The driver app</h3>
-    <p style="margin-block:10px 16px; color:var(--text-2); font-size:15px">The rider&rsquo;s whole experience depends on a driver finishing a permission-heavy flow mid-shift, so I designed it as unskippable, resumable gates. Two of the seven screens exist purely to survive Android&rsquo;s permission model.</p>
-    <div class="flow">
-      <div class="step gate"><span class="n">GATE 01</span><h4>Permissions</h4><p>Background location, explained as the job, not the API.</p></div>
-      <div class="step gate"><span class="n">GATE 02</span><h4>GPS check</h4><p>Device GPS off is the commonest silent failure.</p></div>
-      <div class="step"><span class="n">03</span><h4>Onboarding</h4><p>First run. What happens to their location.</p></div>
-      <div class="step"><span class="n">04</span><h4>Select bus</h4><p>Which vehicle today, remembered per session.</p></div>
-      <div class="step"><span class="n">05</span><h4>Ready</h4><p>An armed state. Nothing broadcasts by accident.</p></div>
-      <div class="step"><span class="n">06</span><h4>Tracking</h4><p>Foreground service, persistent notification.</p></div>
-      <div class="step"><span class="n">07</span><h4>Completed</h4><p>An explicit end, not a force-quit.</p></div>
-    </div>
-    <p style="margin-top:16px; color:var(--text-2); font-size:15px">That last screen exists for the <em>other</em> app&rsquo;s users: without it, drivers swipe the app away and a dead position sits on a rider&rsquo;s map looking live.</p>
 
     <h3 style="margin-top:42px">System</h3>
-    <p style="margin-block:10px 18px; color:var(--text-2); font-size:15px">Pink is the service&rsquo;s name and its safety signal, so it had to carry brand, identity and emphasis without turning every surface into a highlight. Six components — status hero, route card, badge, plan card, bottom sheet, list row — assemble all fourteen screens across both apps.</p>
+    <p style="margin-block:10px 18px; color:var(--text-2); font-size:15px">Pink is the service&rsquo;s name and its safety signal, so it had to carry brand, identity and emphasis at once without turning every surface into a highlight. Six components — status hero, route card, badge, plan card, bottom sheet, list row — assemble every screen.</p>
     <div class="swatches">
       <div class="sw"><div class="box" style="background:#D6246B"></div><div class="meta"><b>Pink 600</b>Primary</div></div>
       <div class="sw"><div class="box" style="background:#F9D7E3"></div><div class="meta"><b>Pink 100</b>Cards</div></div>
