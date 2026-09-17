@@ -1,0 +1,608 @@
+<title>Shaifur Rahaman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400..700&display=swap">
+<style>
+:root{
+  --paper:#F3F5F7; --plate:#FFFFFF; --plate-2:#E9EDF1;
+  --ink:#13171E; --ink-2:#48525F; --ink-3:#6E7885;
+  --rule:#D6DCE3; --rule-2:#C2CAD3;
+  --accent:#A8174C; --accent-ink:#8E123F; --accent-soft:#F6E3EB;
+  --live:#0E6B45; --live-soft:#DFF0E7;
+  --shadow:0 1px 2px rgba(19,23,30,.06), 0 8px 24px -12px rgba(19,23,30,.18);
+  --display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --body:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216; --plate:#171B21; --plate-2:#1F242C;
+    --ink:#EDF0F4; --ink-2:#A6B0BC; --ink-3:#79838F;
+    --rule:#272D36; --rule-2:#333B45;
+    --accent:#F2679A; --accent-ink:#F58FB4; --accent-soft:#2E1622;
+    --live:#4CC38A; --live-soft:#11261C;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 28px -14px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216; --plate:#171B21; --plate-2:#1F242C;
+  --ink:#EDF0F4; --ink-2:#A6B0BC; --ink-3:#79838F;
+  --rule:#272D36; --rule-2:#333B45;
+  --accent:#F2679A; --accent-ink:#F58FB4; --accent-soft:#2E1622;
+  --live:#4CC38A; --live-soft:#11261C;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 28px -14px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+figure,dl{margin:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--body); font-size:17px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%; display:block}
+a{color:var(--accent-ink); text-decoration:none; border-bottom:1px solid var(--accent-soft)}
+a:hover{border-bottom-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
+
+/* ---------- draft bar ---------- */
+.draft{
+  background:var(--ink); color:var(--paper);
+  font-family:var(--mono); font-size:12px; line-height:1.55;
+}
+.draft .wrap{display:flex; gap:18px; align-items:flex-start; padding-block:12px}
+.draft b{font-weight:600; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap}
+.draft ul{margin:4px 0 0; padding-left:16px; display:flex; flex-direction:column; gap:2px}
+.draft button{
+  margin-left:auto; background:none; border:1px solid rgba(255,255,255,.3); color:inherit;
+  font:inherit; padding:2px 9px; border-radius:2px; cursor:pointer; flex:none;
+}
+.draft button:hover{background:rgba(255,255,255,.12)}
+
+/* ---------- shell ---------- */
+.wrap{width:100%; max-width:1140px; margin-inline:auto; padding-inline:24px}
+main{position:relative}
+
+/* route spine */
+.rail{display:none}
+@media (min-width:1180px){
+  /* wrapper content edge sits at calc(50% - 546px); rail centre 38px left of it */
+  .rail{
+    display:block; position:absolute; left:calc(50% - 584px);
+    top:0; bottom:0; width:2px; background:var(--rule); z-index:0;
+  }
+  main>.wrap{position:relative; z-index:1}
+  .stop{position:relative}
+  .stop::before{
+    content:""; position:absolute; left:-43.5px; top:.6em;
+    width:13px; height:13px; border-radius:50%;
+    background:var(--paper); border:3px solid var(--accent);
+  }
+}
+
+/* ---------- type ---------- */
+.eyebrow{
+  font-family:var(--mono); font-size:11.5px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3);
+}
+h1,h2,h3,h4{font-family:var(--display); text-wrap:balance; margin:0}
+h1{
+  font-size:clamp(38px,6.4vw,68px); line-height:1.02;
+  font-weight:800; font-stretch:112%; letter-spacing:-.022em;
+}
+h2{
+  font-size:clamp(27px,3.6vw,40px); line-height:1.08;
+  font-weight:800; font-stretch:108%; letter-spacing:-.018em;
+}
+h3{font-size:21px; line-height:1.25; font-weight:700; letter-spacing:-.008em}
+h4{font-size:15px; line-height:1.3; font-weight:700; letter-spacing:-.004em}
+p{margin:0; max-width:66ch}
+.lede{font-size:20px; line-height:1.55; color:var(--ink-2)}
+.col{display:flex; flex-direction:column; gap:18px}
+section{padding-block:clamp(52px,7vw,88px); border-top:1px solid var(--rule)}
+section:first-of-type{border-top:none}
+.sec-head{display:flex; flex-direction:column; gap:10px; margin-bottom:36px}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(56px,9vw,104px) clamp(40px,5vw,64px)}
+.hero h1{margin-block:18px 22px}
+.hero .lede{font-size:clamp(19px,2.1vw,23px)}
+.facts{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:1px; background:var(--rule); border-block:1px solid var(--rule);
+  margin-block:44px 0;
+}
+.fact{background:var(--paper); padding:16px 18px 18px; display:flex; flex-direction:column; gap:5px}
+.fact dt{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+.fact dd{margin:0; font-family:var(--display); font-weight:600; font-size:15px; line-height:1.35}
+
+/* ---------- plates & chips ---------- */
+.chip{
+  display:inline-flex; align-items:center; gap:7px;
+  font-family:var(--mono); font-size:11px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:4px 10px; border-radius:2px;
+  background:var(--plate-2); color:var(--ink-2);
+}
+.chip.live{background:var(--live-soft); color:var(--live)}
+.chip.rose{background:var(--accent-soft); color:var(--accent-ink)}
+.dot{width:6px; height:6px; border-radius:50%; background:currentColor}
+
+/* ---------- screens ---------- */
+.screen-row{
+  display:grid; grid-template-columns:232px 1fr; gap:clamp(24px,4vw,56px);
+  align-items:start; padding-block:34px; border-top:1px dashed var(--rule);
+}
+.screen-row:first-of-type{border-top:none; padding-top:6px}
+.shot{
+  border:1px solid var(--rule-2); border-radius:14px; overflow:hidden;
+  background:var(--plate); box-shadow:var(--shadow);
+}
+.shot img{aspect-ratio:1080/2400; object-fit:cover; object-position:top}
+.shot.crop img{aspect-ratio:1080/1500}
+figcaption{
+  font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ink-3); margin-top:10px;
+}
+.notes{display:flex; flex-direction:column; gap:22px}
+.note{display:flex; flex-direction:column; gap:7px}
+.note p{font-size:16.5px; color:var(--ink-2)}
+.note h4{color:var(--ink)}
+@media (max-width:760px){
+  .screen-row{grid-template-columns:1fr; gap:22px}
+  .shot{max-width:280px}
+}
+
+/* ---------- pull quote / decision ---------- */
+.decision{
+  border-left:3px solid var(--accent); padding:4px 0 4px 20px;
+  font-family:var(--display); font-weight:600; font-stretch:104%;
+  font-size:clamp(19px,2.3vw,25px); line-height:1.3; letter-spacing:-.012em;
+  max-width:54ch;
+}
+.decision span{color:var(--accent-ink)}
+
+/* ---------- driver flow ---------- */
+.flow{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(148px,1fr));
+  gap:10px; margin-top:8px;
+}
+.step{
+  background:var(--plate); border:1px solid var(--rule); border-radius:4px;
+  padding:14px 14px 16px; display:flex; flex-direction:column; gap:7px;
+  position:relative;
+}
+.step.gate{border-color:var(--accent); background:var(--accent-soft)}
+.step .n{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--ink-3)}
+.step.gate .n{color:var(--accent-ink)}
+.step h4{font-size:14px}
+.step p{font-size:13.5px; line-height:1.45; color:var(--ink-2); font-family:var(--display); font-weight:400}
+
+/* ---------- tokens ---------- */
+.swatches{display:grid; grid-template-columns:repeat(auto-fit,minmax(128px,1fr)); gap:12px}
+.sw{display:flex; flex-direction:column; gap:8px}
+.sw .box{height:62px; border-radius:3px; border:1px solid var(--rule-2)}
+.sw .meta{font-family:var(--mono); font-size:11px; line-height:1.5; color:var(--ink-3)}
+.sw .meta b{display:block; color:var(--ink); font-weight:600; letter-spacing:.02em}
+
+.tokens{width:100%; border-collapse:collapse; font-family:var(--mono); font-size:13px}
+.tokens th,.tokens td{text-align:left; padding:9px 14px 9px 0; border-bottom:1px solid var(--rule); vertical-align:top}
+.tokens th{font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3); font-weight:500}
+.tokens td:first-child{color:var(--accent-ink); white-space:nowrap}
+.tokens td:last-child{font-family:var(--display); font-weight:400; font-size:14px; color:var(--ink-2)}
+.scroller{overflow-x:auto}
+
+/* ---------- lists ---------- */
+.stack{display:flex; flex-direction:column; gap:26px}
+.item{display:grid; grid-template-columns:auto 1fr; gap:4px 16px}
+.item .k{
+  font-family:var(--mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--accent-ink); padding-top:5px; white-space:nowrap;
+}
+.item h4{grid-column:2}
+.item p{grid-column:2; color:var(--ink-2); font-size:16.5px}
+@media (max-width:620px){
+  .item{grid-template-columns:1fr}
+  .item h4,.item p{grid-column:1}
+}
+
+/* ---------- contact ---------- */
+.contact{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.btn{
+  font-family:var(--display); font-weight:600; font-size:15px;
+  padding:11px 20px; border-radius:3px; border:1px solid var(--ink);
+  background:var(--ink); color:var(--paper); border-bottom-color:var(--ink);
+}
+.btn:hover{background:var(--accent); border-color:var(--accent); color:#fff}
+.btn.ghost{background:none; color:var(--ink); border-color:var(--rule-2)}
+.btn.ghost:hover{border-color:var(--accent); color:var(--accent-ink); background:none}
+footer{border-top:1px solid var(--rule); padding-block:30px 44px}
+.foot{display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; font-family:var(--mono); font-size:11.5px; color:var(--ink-3); letter-spacing:.04em}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<div class="draft" id="draftbar">
+  <div class="wrap">
+    <b>Draft&nbsp;— fill in before sending</b>
+    <ul>
+      <li>Replace the three contact links below (email, LinkedIn, Play Store / GitHub).</li>
+      <li>Confirm the fleet and operator facts in “Context” match what you actually know about the route you built for.</li>
+      <li>Add real numbers if you have any — installs, drivers onboarded, weeks live. Leave them out rather than guess.</li>
+    </ul>
+    <button type="button" id="dismiss">Hide</button>
+  </div>
+</div>
+
+<main>
+  <div class="rail" aria-hidden="true"></div>
+
+  <div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Shaifur Rahaman &nbsp;·&nbsp; Product designer (UI/UX) &nbsp;·&nbsp; Dhaka</div>
+    <h1>I design transit software for people who can&rsquo;t afford to miss the bus.</h1>
+    <p class="lede">Most of my work sits where interface design meets infrastructure that doesn&rsquo;t quite work yet — sparse data, unreliable GPS, ৳15 price points, and users on ৳2,000 Android phones. Seven years of designing mobile and web interfaces, and this is one system shown end to end: the rider app, the driver app nobody sees, and the decisions that connect them.</p>
+    <dl class="facts">
+      <div class="fact"><dt>Experience</dt><dd>7 years, mobile &amp; web interfaces</dd></div>
+      <div class="fact"><dt>Seeking</dt><dd>Senior UI/UX &amp; Product Design</dd></div>
+      <div class="fact"><dt>Discipline</dt><dd>Interaction · Visual · Systems</dd></div>
+      <div class="fact"><dt>I also ship it</dt><dd>Kotlin · Jetpack Compose</dd></div>
+      <div class="fact"><dt>Based</dt><dd>Dhaka, Bangladesh · Remote-ready</dd></div>
+    </dl>
+  </section>
+
+  <section class="stop" id="pinktrack">
+    <div class="sec-head">
+      <div class="eyebrow">Case study 01 &nbsp;·&nbsp; Two Android apps, one service</div>
+      <h2>PinkTrack — putting Dhaka&rsquo;s women-only buses on a map</h2>
+      <p class="lede">Dhaka runs a small fleet of women-only &ldquo;pink buses.&rdquo; There is no published timetable and no way to know whether one is coming. Riders wait at the roadside guessing — which, for the exact users the service exists to protect, is the part that costs the most.</p>
+    </div>
+
+    <div class="col" style="gap:34px">
+      <div class="col">
+        <h3>The real problem isn&rsquo;t the map</h3>
+        <p>A tracking app looks like a mapping problem. It isn&rsquo;t. The map is the easy half — Google gives you that. The hard half is that <strong>the data only exists if a bus driver remembers to press start and leaves their phone alone for four hours.</strong> Every design decision in this project follows from that single fact.</p>
+        <p>So I designed two apps. The one riders see, and the one that decides whether the first one has anything to show.</p>
+      </div>
+
+      <div class="decision">If the driver app fails, the rider app is a <span>beautifully rendered lie.</span></div>
+
+      <div class="col">
+        <h3>Constraints I designed inside</h3>
+        <div class="stack" style="margin-top:6px">
+          <div class="item">
+            <div class="k">Coverage</div>
+            <h4>Almost no buses are live at any given moment</h4>
+            <p>A handful of drivers, most of them off shift. Any design that assumes a populated map is dishonest by default. The interface has to stay useful — and stay trustworthy — when the answer is &ldquo;one bus.&rdquo;</p>
+          </div>
+          <div class="item">
+            <div class="k">Devices</div>
+            <h4>Low-end Android, mixed literacy, 2G dead zones</h4>
+            <p>Budget phones, aggressive battery killers that silently stop background services, and network that drops between neighbourhoods. Icon-only interfaces fail here; so does anything that needs a steady socket.</p>
+          </div>
+          <div class="item">
+            <div class="k">Money</div>
+            <h4>The whole product has to work at ৳15</h4>
+            <p>Roughly the price of a snack. That rules out subscription-shaped pricing and the onboarding patterns built around it — no trials, no card on file, no monthly mental commitment.</p>
+          </div>
+          <div class="item">
+            <div class="k">Stakes</div>
+            <h4>The users are women choosing a safer ride</h4>
+            <p>Safety context changes the tone of everything: what gets escalated, how location sharing is explained, what a notification is allowed to interrupt, and how an SOS behaves.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <h3>My role</h3>
+        <p>Sole designer across both apps — product definition, flows, interaction, visual system, copy — and I built the UI in Jetpack Compose against a Firebase Realtime Database backend. Designing and implementing the same screens meant the system stayed honest: every token and component in the spec exists because it survived contact with a real build.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stop" id="rider">
+    <div class="sec-head">
+      <div class="eyebrow">The rider app &nbsp;·&nbsp; Seven decisions</div>
+      <h2>Designing for an empty map</h2>
+      <p class="lede">Every screen below is shipped UI. The notes beside each one are the decision, not the description.</p>
+    </div>
+
+    <figure class="screen-row">
+      <div>
+        <div class="shot"><img src="screens/01-login.jpg" alt="PinkTrack sign-in screen with a pink gradient header, route-line illustration and Continue with Google"></div>
+        <figcaption>01 · Sign in</figcaption>
+      </div>
+      <div class="notes">
+        <div class="note">
+          <h4>The brand mark is the product diagram</h4>
+          <p>The header illustration is a route line with stop pins — the same visual grammar the map uses. The first screen teaches the metaphor before the user has anything to look at, and the tagline commits to the single promise: <em>your ride, always in sight.</em></p>
+        </div>
+        <div class="note">
+          <h4>Google first, email second</h4>
+          <p>One tap beats a password on a shared or borrowed phone. Email stays for riders without a Google account, but it sits below the fold of attention, behind an <span class="chip">or use email</span> divider rather than as an equal choice.</p>
+        </div>
+        <div class="note">
+          <h4>Log In stays disabled until the form is valid</h4>
+          <p>A grey, unpressable button is a cheaper error message than a red one. Nobody gets to fail; they just aren&rsquo;t finished yet.</p>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="screen-row">
+      <div>
+        <div class="shot"><img src="screens/02-home-routes.jpg" alt="PinkTrack home screen showing a status card reading one bus on the road, a green track buses live bar, and a list of routes marked inactive"></div>
+        <figcaption>02 · Home &amp; routes</figcaption>
+      </div>
+      <div class="notes">
+        <div class="note">
+          <h4>Lead with the truth, even when it&rsquo;s &ldquo;1&rdquo;</h4>
+          <p>The hero card states the live count in plain words — <strong>1 bus on the road</strong> — instead of hiding sparse coverage behind a map the user has to pan around to find nothing. Honesty here buys the trust that the rest of the product spends.</p>
+        </div>
+        <div class="note">
+          <h4>One green bar, one action</h4>
+          <p>The only saturated non-pink element on the screen is the live-tracking bar, with a pulsing status dot. Green is reserved system-wide for <em>something is happening right now</em>; it never appears as decoration.</p>
+        </div>
+        <div class="note">
+          <h4><span class="chip">inactive</span> is a feature, not an omission</h4>
+          <p>Routes with no bus running stay in the list, clearly labelled. Riders learn the network exists and which corridors it serves, so the app is still worth opening on a bad day — and the badge sets expectations before the tap, not after.</p>
+        </div>
+        <div class="note">
+          <h4>From / To, with an origin dot and a destination flag</h4>
+          <p>Route cards borrow the ticket mental model rather than the database one. And the affordance is spelled out in words — <em>Tap to see stoppages</em> — because a chevron alone assumes an app-literate reader.</p>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="screen-row">
+      <div>
+        <div class="shot"><img src="screens/03-live-map.jpg" alt="PinkTrack live map with a pink bus marker on a Dhaka-area road and a bottom sheet showing route name, speed and an unfollow button"></div>
+        <figcaption>03 · Live tracking</figcaption>
+      </div>
+      <div class="notes">
+        <div class="note">
+          <h4>Speed is the trust signal</h4>
+          <p>The sheet reports <strong>1.0 km/h</strong> — a bus stuck in traffic. Showing the real number, however unflattering, is what proves the dot is live rather than a last-known guess. A stale position that looks confident is the worst failure this product can have.</p>
+        </div>
+        <div class="note">
+          <h4>Follow is a state you can leave</h4>
+          <p>The primary action while tracking is <strong>Unfollow</strong>, not another way in. Camera-lock is an easy thing to enter and a frustrating thing to escape, so the exit is the biggest control on the sheet, with a separate ✕ to dismiss the sheet without breaking the follow.</p>
+        </div>
+        <div class="note">
+          <h4>The bus marker is oversized on purpose</h4>
+          <p>Google&rsquo;s base map is dense with Bengali and English POI labels at this zoom. A standard pin loses that fight. The marker is scaled past cartographic politeness so the one thing the user came for wins the visual hierarchy against a map I don&rsquo;t control.</p>
+        </div>
+        <div class="note">
+          <h4>Live count stays pinned</h4>
+          <p>The <span class="chip rose"><span class="dot"></span>Active buses 1</span> pill persists over the map, so panning away from the bus never makes the user wonder whether it disappeared.</p>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="screen-row">
+      <div>
+        <div class="shot"><img src="screens/04-notices.jpg" alt="PinkTrack notices feed with categorised cards labelled service, offer, safety and route change"></div>
+        <figcaption>04 · Notices</figcaption>
+      </div>
+      <div class="notes">
+        <div class="note">
+          <h4>One feed, four categories, one priority</h4>
+          <p><span class="chip live">service</span> is the only filled badge in the set. Schedule changes are the thing a rider standing at a bus stop actually needs; offers and general notes are outlined and recede. Priority is encoded in <em>weight</em>, so it survives a fast scroll.</p>
+        </div>
+        <div class="note">
+          <h4>Relative dates, because absolute ones do no work</h4>
+          <p><em>Today · Yesterday · 3 days ago · Last week.</em> Nobody needs to know a notice was posted on the 14th; they need to know whether it still applies to this morning&rsquo;s commute.</p>
+        </div>
+        <div class="note">
+          <h4>Safety copy says what it does and what it costs</h4>
+          <p>The SOS notice explains that the button shares live location with the safety team — and adds the constraint, <em>use it only in a genuine emergency</em>, in the same breath. In a safety feature, the limits are part of the feature.</p>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="screen-row">
+      <div>
+        <div class="shot"><img src="screens/05-profile.jpg" alt="PinkTrack profile screen with avatar, email, age and a credits panel showing three credits and a recharge button"></div>
+        <figcaption>05 · Profile &amp; credits</figcaption>
+      </div>
+      <div class="notes">
+        <div class="note">
+          <h4>Balance before plans</h4>
+          <p>The first thing on the money half of the screen is <strong>Your credits: 3</strong> with Recharge beside it. The question a returning user has is &ldquo;can I track a bus right now,&rdquo; not &ldquo;which tier am I on.&rdquo; Plans sit below the answer.</p>
+        </div>
+        <div class="note">
+          <h4>Identity stays thin</h4>
+          <p>Email and age, nothing more. For a women&rsquo;s safety service, every additional profile field is a liability to justify, not a default to collect.</p>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="screen-row">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+        <div>
+          <div class="shot crop"><img src="screens/06-plans-payg.jpg" alt="Pay as you go plan card, one credit, with benefit list and add credits button"></div>
+          <figcaption>06 · Pay as you go</figcaption>
+        </div>
+        <div>
+          <div class="shot crop"><img src="screens/07-plans-weekly.jpg" alt="Weekly plan card priced at fifteen taka for seven days with a choose weekly button"></div>
+          <figcaption>07 · Weekly ৳15</figcaption>
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note">
+          <h4>Designing pricing for a ৳15 decision</h4>
+          <p>The plan carousel presents one card at a time rather than a side-by-side comparison table. At this price the choice isn&rsquo;t an analysis — it&rsquo;s a mood. Swipe, read four lines, commit. A pricing grid would import enterprise-SaaS ceremony into a snack-money transaction.</p>
+        </div>
+        <div class="note">
+          <h4>Credits, because everyone here already has a mental model for top-up</h4>
+          <p>Prepaid mobile balance is the dominant money metaphor in Bangladesh. Building on it means no explanation is needed, and it sidesteps the real barrier: recurring card billing is not something most of these users have or want.</p>
+        </div>
+        <div class="note">
+          <h4>The benefit lists answer objections, not features</h4>
+          <p><em>Credits never expire. No subscription, no commitment. Cancel before renewal, any time.</em> Three of the four bullets on each card exist to defuse a specific fear about being charged. In low-trust payment contexts, that&rsquo;s the conversion work.</p>
+        </div>
+        <div class="note">
+          <h4>Asymmetric button weight</h4>
+          <p>Pay-as-you-go gets an outlined <em>Add credits</em>; Weekly gets a filled <em>Choose weekly</em>. The recommendation is made with emphasis rather than with a &ldquo;Most popular&rdquo; sticker the product hasn&rsquo;t earned the data to claim.</p>
+        </div>
+      </div>
+    </figure>
+  </section>
+
+  <section class="stop" id="driver">
+    <div class="sec-head">
+      <div class="eyebrow">The driver app &nbsp;·&nbsp; The half nobody sees</div>
+      <h2>Seven screens to make one dot appear</h2>
+      <p class="lede">A rider&rsquo;s entire experience depends on a driver completing a flow full of Android permission dialogs, on a shift that hasn&rsquo;t started yet, while passengers board. I designed it as a sequence of gates that cannot be skipped and can always be resumed.</p>
+    </div>
+
+    <div class="flow">
+      <div class="step gate"><span class="n">GATE 01</span><h4>Permissions</h4><p>Background location, explained in terms of the job — not the API.</p></div>
+      <div class="step gate"><span class="n">GATE 02</span><h4>Location service</h4><p>Device GPS off is the most common silent failure. Checked as its own screen.</p></div>
+      <div class="step"><span class="n">03</span><h4>Bus onboarding</h4><p>First run only. What the app does, and what it does with the driver&rsquo;s location.</p></div>
+      <div class="step"><span class="n">04</span><h4>Select bus ID</h4><p>Which vehicle am I driving today. Remembered per session.</p></div>
+      <div class="step"><span class="n">05</span><h4>Ready</h4><p>A deliberate armed state before broadcasting. Nothing starts by accident.</p></div>
+      <div class="step"><span class="n">06</span><h4>Tracking</h4><p>Foreground service, persistent notification, unmistakably on.</p></div>
+      <div class="step"><span class="n">07</span><h4>Completed</h4><p>An explicit end, so drivers stop by finishing rather than by force-quitting.</p></div>
+    </div>
+
+    <div class="col" style="margin-top:38px; gap:26px">
+      <div class="decision">Two of the seven screens exist only to survive <span>Android&rsquo;s permission model.</span></div>
+      <div class="stack">
+        <div class="item">
+          <div class="k">Why gates</div>
+          <h4>Blocking beats a banner</h4>
+          <p>A dismissible warning about location permission gets dismissed, and then the bus is invisible for the whole route with nobody aware. Making permission and GPS state full-screen, unskippable steps trades a slower start for a system that fails loudly at the only moment the driver can fix it.</p>
+        </div>
+        <div class="item">
+          <div class="k">Why resumable</div>
+          <h4>The app is used one-handed, mid-shift, then backgrounded</h4>
+          <p>Session state is remembered so a driver kicked out at step 4 returns to step 4. Geofence and network-state receivers handle the cases the UI can&rsquo;t — re-arming when the bus reaches a terminus, surviving the dead zones between neighbourhoods.</p>
+        </div>
+        <div class="item">
+          <div class="k">Why an end screen</div>
+          <h4>&ldquo;Completed&rdquo; is what keeps rider data clean</h4>
+          <p>Without an explicit finish, drivers close the app by swiping it away and the last known position sits on the rider&rsquo;s map looking live. The end state exists for the other app&rsquo;s users.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stop" id="system">
+    <div class="sec-head">
+      <div class="eyebrow">Design system &nbsp;·&nbsp; Sampled from the shipped build</div>
+      <h2>A palette with only one loud colour</h2>
+      <p class="lede">Pink is the service&rsquo;s name and its safety signal, so it had to carry brand, identity and emphasis at once without turning every surface into a highlight.</p>
+    </div>
+
+    <div class="swatches">
+      <div class="sw"><div class="box" style="background:#D6246B"></div><div class="meta"><b>Pink 600</b>#D6246B<br>Brand, primary action</div></div>
+      <div class="sw"><div class="box" style="background:#F9D7E3"></div><div class="meta"><b>Pink 100</b>#F9D7E3<br>Cards, quiet surfaces</div></div>
+      <div class="sw"><div class="box" style="background:#FDF5F7"></div><div class="meta"><b>Pink 25</b>#FDF5F7<br>App background</div></div>
+      <div class="sw"><div class="box" style="background:#15603C"></div><div class="meta"><b>Live green</b>#15603C<br>Live state only</div></div>
+      <div class="sw"><div class="box" style="background:#2B1119"></div><div class="meta"><b>Plum ink</b>#2B1119<br>Body text</div></div>
+      <div class="sw"><div class="box" style="background:#0B5FA5"></div><div class="meta"><b>Avatar blue</b>#0B5FA5<br>Identity, non-brand</div></div>
+    </div>
+
+    <div class="col" style="margin-top:42px; gap:14px">
+      <h3>Rules that made the palette survive</h3>
+      <div class="scroller">
+        <table class="tokens">
+          <thead><tr><th>Rule</th><th>Applies to</th><th>Because</th></tr></thead>
+          <tbody>
+            <tr><td>green = live</td><td>Track bar, active dot, SERVICE badge</td><td>If green ever means &ldquo;success&rdquo; or &ldquo;go&rdquo;, it stops meaning &ldquo;a bus is moving right now.&rdquo;</td></tr>
+            <tr><td>one filled button</td><td>Per screen</td><td>Pink-on-pink surfaces flatten fast; a single filled control keeps the next step obvious.</td></tr>
+            <tr><td>text never on brand pink</td><td>Body copy</td><td>Plum ink on pink-25 holds contrast on cheap LCD panels where mid-pinks wash out in daylight.</td></tr>
+            <tr><td>badges are outlined</td><td>INACTIVE, OFFER, SAFETY</td><td>Leaves fill as a scarce resource, spent only on the highest-priority category.</td></tr>
+            <tr><td>labels spelled out</td><td>FROM, TO, stoppages</td><td>Mixed-literacy, bilingual users; icons carry recognition but words carry certainty.</td></tr>
+            <tr><td>৳ always precedes</td><td>All prices</td><td>Matches how amounts are written locally — a detail that signals the product was built here.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col" style="margin-top:42px; gap:14px">
+      <h3>Components, not screens</h3>
+      <p>The system is small on purpose: a status hero, a route card, a category badge, a plan card, a bottom sheet, and a list row. Seven rider screens and seven driver screens are assembled from those six, which is why two apps stayed visually identical while being built by one person alongside the design work.</p>
+    </div>
+  </section>
+
+  <section class="stop" id="reflection">
+    <div class="sec-head">
+      <div class="eyebrow">What I&rsquo;d do next</div>
+      <h2>Where this design is still wrong</h2>
+    </div>
+    <div class="stack">
+      <div class="item">
+        <div class="k">Open</div>
+        <h4>&ldquo;1 bus on the road&rdquo; is honest but not actionable</h4>
+        <p>It tells a rider the state of the network, not whether <em>their</em> bus is coming. The next version should lead with the nearest active bus on a route the rider has saved, and fall back to the fleet count only when there&rsquo;s nothing personal to say.</p>
+      </div>
+      <div class="item">
+        <div class="k">Open</div>
+        <h4>There is no design for the empty map</h4>
+        <p>Zero active buses is the most common state and currently the least designed one. It should carry the last time a bus ran on this route and a notify-me action — the moment a rider is most willing to give permission for a push is the moment they&rsquo;ve been let down.</p>
+      </div>
+      <div class="item">
+        <div class="k">Open</div>
+        <h4>The driver flow has never been tested at 7am</h4>
+        <p>I designed it against the failure modes I could reason about. What it needs is a morning at a depot watching drivers hit gate 01 with a queue forming behind them — I expect the permission copy to be the first thing that breaks.</p>
+      </div>
+      <div class="item">
+        <div class="k">Open</div>
+        <h4>Bengali is on the map but not in the interface</h4>
+        <p>The base map renders in Bengali; the app is English-only. For a service aimed at this user group, that&rsquo;s a real gap, and localisation would force a typographic revision — Bengali script needs more line height than the current scale allows.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stop" id="process">
+    <div class="sec-head">
+      <div class="eyebrow">How I work</div>
+      <h2>Seven years of shipping, three habits that stuck</h2>
+    </div>
+    <div class="stack">
+      <div class="item">
+        <div class="k">01</div>
+        <h4>Find the constraint that eats the others</h4>
+        <p>In PinkTrack it was driver compliance; on every project there is one fact that decides most of the interface. I look for it before I open a design tool, because a beautiful solution to the second-most-important problem is just expensive decoration.</p>
+      </div>
+      <div class="item">
+        <div class="k">02</div>
+        <h4>Design the empty, stale and failed states first</h4>
+        <p>The happy path is the easiest 20% and the least-used. I start with what the screen looks like when the data is missing, old or wrong — it&rsquo;s where trust is won, and it usually changes the happy path too.</p>
+      </div>
+      <div class="item">
+        <div class="k">03</div>
+        <h4>Build it, so the system has to be real</h4>
+        <p>I implement in Jetpack Compose and on the web. A design system that survives its own implementation has no tokens nobody uses and no component that only works at one width. It also means I hand engineers decisions, not homework.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stop" id="contact">
+    <div class="sec-head">
+      <div class="eyebrow">Shaifur Rahaman</div>
+      <h2>Let&rsquo;s talk about the hard half of your product</h2>
+      <p class="lede">Seven years designing mobile and web interfaces, most recently end-to-end on PinkTrack — rider app, driver app, design system, and the Compose implementation of both. Available for senior UI/UX and product design roles, remote or in Dhaka.</p>
+    </div>
+    <div class="contact">
+      <a class="btn" href="mailto:your@email.com">Email me</a>
+      <a class="btn ghost" href="#">LinkedIn</a>
+      <a class="btn ghost" href="#">GitHub</a>
+    </div>
+  </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Shaifur Rahaman · Product designer · Dhaka</span>
+    <span>PinkTrack · Kotlin · Jetpack Compose · Firebase · Google Maps SDK</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('dismiss').addEventListener('click', function(){
+    document.getElementById('draftbar').hidden = true;
+  });
+</script>
