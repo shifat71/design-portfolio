@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spatial UI — Photos in space · Shaifur Rahaman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dusk:#1e3542;     /* environment shadow */
+  --mist:#7d9eab;     /* valley haze */
+  --dawn:#f1b88c;     /* sunrise over Sajek */
+  --glass:rgba(96,104,112,.34);
+  --glass-deep:rgba(60,66,74,.42);
+  --text:#ffffff;
+  --text-2:rgba(255,255,255,.74);
+  --mx:0;--my:0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Figtree",system-ui,sans-serif;color:var(--text);background:var(--dusk);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button,a{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #fff;outline-offset:3px;border-radius:14px}
+
+/* ---------- environment: Sajek valley at dawn, drawn then defocused ---------- */
+.env{position:fixed;inset:-60px;z-index:0;filter:blur(22px) saturate(1.15);
+  transform:translate(calc(var(--mx)*-10px),calc(var(--my)*-8px));
+  background:
+    radial-gradient(40% 30% at 70% 38%,#ffd9a8 0%,#f1b88c55 40%,transparent 70%),
+    radial-gradient(70% 22% at 20% 64%,#c9dbe0cc 0%,transparent 70%),       /* cloud sea */
+    radial-gradient(60% 18% at 80% 70%,#dfe8eacc 0%,transparent 70%),
+    radial-gradient(50% 40% at 10% 88%,#1b3a2e 0%,transparent 70%),          /* near hill */
+    radial-gradient(60% 45% at 95% 95%,#23412f 0%,transparent 70%),
+    radial-gradient(90% 30% at 50% 58%,#48707a 0%,transparent 70%),          /* far ridge */
+    linear-gradient(180deg,#2f4f63 0%,#6f93a3 34%,#e7b58f 50%,#8aa7ad 58%,#35544f 76%,#1e3542 100%);
+}
+.env::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 45%,transparent 50%,#0d1a2288 100%)}
+.floor{position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:0;background:linear-gradient(180deg,transparent,#0d1a2255)}
+
+/* ---------- glass material ---------- */
+.glass{position:relative;background:var(--glass);
+  -webkit-backdrop-filter:blur(40px) saturate(1.6) brightness(1.05);backdrop-filter:blur(40px) saturate(1.6) brightness(1.05);
+  box-shadow:0 1px 0 0 rgba(255,255,255,.28) inset,0 -1px 0 0 rgba(0,0,0,.12) inset,0 40px 80px -20px rgba(8,20,28,.55),0 8px 24px rgba(8,20,28,.25)}
+/* specular rim: bright on the top-left, fading around the edge */
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;pointer-events:none;
+  background:linear-gradient(140deg,rgba(255,255,255,.85) 0%,rgba(255,255,255,.18) 22%,rgba(255,255,255,.04) 50%,rgba(255,255,255,.1) 78%,rgba(255,255,255,.5) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+
+/* ---------- scene & depth layers ---------- */
+.scene{position:relative;z-index:1;width:1440px;max-width:100%;height:100vh;min-height:760px;margin:0 auto}
+.layer{position:absolute;will-change:transform}
+.far {left:36px; top:200px;width:214px;transform:translate(calc(var(--mx)*6px),calc(var(--my)*5px)) scale(.9);filter:blur(.6px) brightness(.92);opacity:.9}
+.main{left:336px;top:78px;width:700px;transform:translate(calc(var(--mx)*14px),calc(var(--my)*10px))}
+.near{left:1000px;top:170px;width:376px;transform:translate(calc(var(--mx)*26px),calc(var(--my)*18px))}
+
+.window{border-radius:44px;overflow:hidden}
+.grab{display:block;width:118px;height:9px;margin:14px auto 0;border-radius:9px;background:rgba(255,255,255,.55);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+
+/* main window content */
+.main .window{padding:26px 28px 28px;height:652px;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.bar h1{font-size:29px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.bar p{color:var(--text-2);font-size:15px;margin-top:4px}
+.seg{display:flex;padding:4px;border-radius:999px;background:rgba(0,0,0,.14)}
+.seg button{border:0;background:none;padding:9px 18px;border-radius:999px;font-size:15px;font-weight:600;color:var(--text-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:rgba(255,255,255,.26);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.4) inset}
+.round{width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;background:rgba(255,255,255,.14);cursor:pointer}
+.round svg{width:20px;height:20px}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:10px;flex:1;min-height:0}
+.tile{position:relative;border:0;border-radius:22px;overflow:hidden;cursor:pointer;padding:0;text-align:left;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.tile:hover,.tile:focus-visible{transform:translateZ(0) scale(1.035);box-shadow:0 18px 36px rgba(0,0,0,.35)}
+.tile.wide{grid-column:span 2}
+.tile.tall{grid-row:span 2}
+.tile .cap{position:absolute;z-index:2;left:0;bottom:0;right:0;padding:26px 14px 11px;font-size:13.5px;font-weight:600;text-shadow:0 1px 6px rgba(0,0,0,.4);background:linear-gradient(180deg,transparent,rgba(12,22,28,.5))}
+.tile .cap small{display:block;font-weight:500;opacity:.85;font-size:12px}
+.tile[aria-current="true"]{box-shadow:0 0 0 3px #fff,0 18px 36px rgba(0,0,0,.35)}
+
+/* ---------- photographs, painted ---------- */
+/* Sreemangal tea garden: stacked clipped rows of tea bushes on rolling hills */
+.p-tea{background:
+  repeating-radial-gradient(120% 60% at 50% 120%,#2f6b2a 0 9px,#3f8634 9px 16px,#27561f 16px 19px),
+  linear-gradient(#bcd9c8,#e8efd6)}
+.p-tea::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(60% 30% at 18% 38%,#5b8c5a 0 60%,transparent 62%),
+  radial-gradient(70% 34% at 88% 34%,#4b7b4a 0 60%,transparent 62%),
+  linear-gradient(180deg,#d6e6dc 0 26%,transparent 26%)}
+.p-tea::after{content:"";position:absolute;left:58%;top:12%;width:26%;height:52%;background:radial-gradient(50% 20% at 50% 20%,#2c5a2a 0 92%,transparent 100%),radial-gradient(34% 14% at 30% 34%,#34682f 0 92%,transparent 100%),linear-gradient(90deg,transparent 48%,#3b2b1c 48% 52%,transparent 52%)}
+
+/* Cox's Bazar sunset: long beach, low sun, wet sand reflections */
+.p-cox{background:
+  radial-gradient(16% 22% at 62% 50%,#fff3c4 0 30%,#ffc46b 45%,transparent 70%),
+  linear-gradient(180deg,#5a4a8a 0%,#c7607a 26%,#f49a5a 46%,#ffcf85 52%,#f7a168 53%,#b86a7a 62%,#6d5a7e 68%,#d9a07e 72%,#e7c09a 100%)}
+.p-cox::before{content:"";position:absolute;left:0;right:0;top:53%;height:16%;
+  background:repeating-linear-gradient(180deg,#ffe0a855 0 2px,transparent 2px 7px);-webkit-mask:radial-gradient(40% 100% at 62% 0,#000,transparent)}
+.p-cox::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30%;background:linear-gradient(172deg,transparent 30%,#2c223a55 31%,#2c223a55 34%,transparent 35%)}
+
+/* Sundarbans: mangrove silhouettes over a still brown channel */
+.p-sun{background:linear-gradient(180deg,#c9d7c3 0%,#9fb7a0 38%,#3e5a3e 48%,#2d4430 52%,#6d7f66 53%,#8d9a82 70%,#5b6b55 100%)}
+.p-sun svg{position:absolute;inset:0;width:100%;height:100%}
+
+/* Ratargul swamp forest: green water, trunks */
+.p-rat{background:
+  repeating-linear-gradient(90deg,transparent 0 22px,#2e2a1a 22px 26px,transparent 26px 50px,#3b3421 50px 53px,transparent 53px 71px),
+  linear-gradient(180deg,#355a2a 0%,#5b8a3a 40%,#2f5b4a 58%,#3f7a64 100%)}
+.p-rat::after{content:"";position:absolute;inset:58% 0 0;background:linear-gradient(180deg,#3d7a66cc,#1f4a3ecc)}
+
+/* Sajek: blue ridges above a sea of cloud */
+.p-saj svg{position:absolute;inset:0;width:100%;height:100%}
+.p-saj{background:
+  linear-gradient(180deg,#8fb2cf 0%,#f0c6a0 60%,#dfe7ea 100%)}
+
+/* Kaptai lake: teal water and a wooden boat */
+.p-kap{background:
+  repeating-linear-gradient(178deg,transparent 0 10px,#ffffff22 10px 11px),
+  linear-gradient(180deg,#9cc3c1 0%,#b8d3c8 30%,#2f6f6c 31%,#2a8a84 70%,#1c5d5c 100%)}
+.p-kap::after{content:"";position:absolute;left:24%;top:52%;width:40%;height:9%;background:#4a2e1c;border-radius:0 0 60% 60%/0 0 100% 100%;box-shadow:12px -8px 0 -6px #6b442a}
+
+/* Old Dhaka rooftops at dusk, kites up */
+.p-dha{background:linear-gradient(180deg,#e9905f 0%,#f4b77a 38%,#c46f7c 100%)}
+.p-dha svg{position:absolute;inset:0;width:100%;height:100%}
+
+/* ---------- far window: Memories ---------- */
+.far .window{padding:18px}
+.far h2{font-size:19px;font-weight:700;margin-bottom:2px}
+.far p{font-size:13px;color:var(--text-2);margin-bottom:14px}
+.memory{height:170px;border-radius:24px;position:relative;overflow:hidden}
+.far .row{display:flex;gap:8px;margin-top:8px}
+.far .row div{flex:1;height:70px;border-radius:16px;position:relative;overflow:hidden}
+
+/* ---------- near window: detail ---------- */
+.near .window{padding:14px}
+.hero-photo{height:300px;border-radius:32px;position:relative;overflow:hidden}
+.meta{padding:18px 10px 6px}
+.meta h2{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.meta p{color:var(--text-2);font-size:14.5px;margin-top:3px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 14px}
+.facts div{background:rgba(255,255,255,.1);border-radius:16px;padding:10px 12px}
+.facts b{display:block;font-size:15px}
+.facts span{font-size:12px;color:var(--text-2)}
+.actions{display:flex;gap:10px}
+.btn{flex:1;border:0;border-radius:999px;padding:13px 16px;font-weight:600;font-size:15px;cursor:pointer;background:rgba(255,255,255,.16)}
+.btn.primary{background:#fff;color:#1d2a33}
+.btn:hover{background:rgba(255,255,255,.26)}.btn.primary:hover{background:#e9f0f3}
+
+/* ---------- ornaments ---------- */
+.tabbar{position:absolute;left:-84px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;padding:8px;border-radius:40px}
+.tabbar button{width:54px;height:54px;border-radius:50%;border:0;background:none;display:grid;place-items:center;cursor:pointer;position:relative}
+.tabbar button svg{width:24px;height:24px;opacity:.82}
+.tabbar button[aria-current="page"]{background:rgba(255,255,255,.24);box-shadow:0 1px 0 rgba(255,255,255,.45) inset}
+.tabbar button[aria-current="page"] svg{opacity:1}
+.tabbar button:hover{background:rgba(255,255,255,.14)}
+.tabbar .tip{position:absolute;left:66px;white-space:nowrap;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:rgba(40,48,56,.6);backdrop-filter:blur(20px);opacity:0;pointer-events:none;transition:opacity .2s}
+.tabbar button:hover .tip,.tabbar button:focus-visible .tip{opacity:1}
+
+.toolbar{position:absolute;left:50%;bottom:-78px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:8px;border-radius:999px;white-space:nowrap}
+.toolbar button{border:0;background:none;height:44px;padding:0 16px;border-radius:999px;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14.5px;cursor:pointer}
+.toolbar button:hover{background:rgba(255,255,255,.14)}
+.toolbar svg{width:19px;height:19px}
+.toolbar .sep{width:1px;height:24px;background:rgba(255,255,255,.25)}
+
+.back{position:absolute;right:28px;bottom:22px;z-index:3;text-decoration:none;font-size:13.5px;font-weight:600;padding:9px 16px;border-radius:999px}
+.back:hover{background:rgba(255,255,255,.3)}
+
+@media (max-width:1100px){
+  .scene{width:auto;height:auto;min-height:100vh;padding:28px 16px 40px;display:flex;flex-direction:column;align-items:center;gap:28px}
+  .layer{position:relative;left:auto;top:auto;transform:none}
+  .main{width:100%;max-width:760px;padding-left:0}
+  .main .window{height:auto}
+  .grid{grid-auto-rows:120px}
+  .near{width:100%;max-width:520px}
+  .far{display:none}
+  .tabbar{position:relative;left:auto;top:auto;transform:none;flex-direction:row;justify-content:center;margin:0 auto 14px;width:max-content}
+  .tabbar .tip{display:none}
+  .toolbar{position:relative;left:auto;bottom:auto;transform:none;margin:14px auto 0;width:max-content;max-width:100%}
+  .main{display:flex;flex-direction:column}
+  .main .tabbar{order:-1}
+  .back{position:relative;right:auto;bottom:auto;align-self:center}
+}
+@media (max-width:640px){
+  .main .window{padding:18px 14px;border-radius:32px}
+  .bar{flex-wrap:wrap}
+  .bar h1{font-size:24px}
+  .seg button{padding:8px 12px;font-size:14px}
+  .grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:110px}
+  .tile.tall{grid-row:span 1}
+  .toolbar button{padding:0 10px;font-size:13.5px}
+  .toolbar .label{display:none}
+  .hero-photo{height:220px}
+  .facts{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:reduce){.tile{transition:none}.tile:hover{transform:none}}
+</style>
+</head>
+<body>
+<div class="env" aria-hidden="true"></div>
+<div class="floor" aria-hidden="true"></div>
+
+<!-- shared mangrove drawing -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="mangrove">
+      <path fill="#1f3322" d="M0 48 C20 30 40 36 60 26 S100 20 120 30 S170 22 200 34 L200 52 L0 52Z"/>
+      <path fill="#162619" d="M0 52 C30 40 50 44 80 40 S140 36 200 46 L200 54 L0 54Z"/>
+      <g stroke="#162619" stroke-width="1.2" fill="none">
+        <path d="M30 52v6M34 52l-3 6M60 50v7M64 50l3 7M120 50v6M150 50l-2 7M170 52v5"/>
+      </g>
+    </g>
+  </defs>
+</svg>
+
+<div class="scene" id="scene">
+
+  <!-- far: memories, pushed back in depth -->
+  <aside class="layer far" aria-label="Memories">
+    <div class="window glass">
+      <h2>Memories</h2>
+      <p>Monsoon in Sylhet, 2025</p>
+      <div class="memory p-rat" aria-hidden="true"></div>
+      <div class="row" aria-hidden="true"><div class="p-tea"></div><div class="p-kap"></div></div>
+    </div>
+    <span class="grab" aria-hidden="true"></span>
+  </aside>
+
+  <!-- main: library -->
+  <section class="layer main" aria-labelledby="lib-h">
+    <nav class="tabbar glass" aria-label="Photos sections">
+      <button aria-current="page" aria-label="Library"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg><span class="tip">Library</span></button>
+      <button aria-label="Memories"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="tip">Memories</span></button>
+      <button aria-label="Albums"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M6 4h12"/></svg><span class="tip">Albums</span></button>
+      <button aria-label="Spatial photos"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg><span class="tip">Spatial</span></button>
+      <button aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span class="tip">Search</span></button>
+    </nav>
+
+    <div class="window glass">
+      <div class="bar">
+        <div>
+          <h1 id="lib-h">Bangladesh, 2026</h1>
+          <p>312 photos from eight trips, February to September</p>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="seg" role="group" aria-label="Group by">
+            <button aria-pressed="false">Years</button><button aria-pressed="true">Trips</button><button aria-pressed="false">All</button>
+          </div>
+          <button class="round" aria-label="Select photos"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.3 4.6-4.9"/></svg></button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <button class="tile wide tall p-tea" data-t="Tea garden, Sreemangal" data-s="Moulvibazar, 14 Mar"><span class="cap">Sreemangal<small>Tea estates, 42 photos</small></span></button>
+        <button class="tile p-cox" aria-current="true" data-t="Sunset at Laboni Point" data-s="Cox’s Bazar, 6 Feb"><span class="cap">Cox’s Bazar<small>18 photos</small></span></button>
+        <button class="tile p-sun" data-t="Kotka canal at low tide" data-s="Sundarbans, 22 Jan"><svg viewBox="0 0 200 110" preserveAspectRatio="none"><use href="#mangrove" transform="translate(0 6)"/><use href="#mangrove" transform="translate(0 64) scale(1 -.5)" opacity=".35"/></svg><span class="cap">Sundarbans<small>36 photos</small></span></button>
+        <button class="tile p-saj" data-t="Cloud sea from Konglak" data-s="Sajek Valley, 3 Aug"><svg viewBox="0 0 200 160" preserveAspectRatio="none"><path d="M0 92 L30 70 L52 80 L84 52 L110 72 L140 58 L170 76 L200 64 V130 H0Z" fill="#7d9bb4"/><path d="M0 110 L24 96 L60 104 L96 84 L128 100 L160 88 L200 102 V140 H0Z" fill="#4f7090"/><ellipse cx="60" cy="122" rx="80" ry="16" fill="#f4f7f9"/><ellipse cx="160" cy="128" rx="70" ry="14" fill="#eef3f5"/><rect y="126" width="200" height="40" fill="#e9eff2"/></svg><span class="cap">Sajek Valley<small>27 photos</small></span></button>
+        <button class="tile p-rat" data-t="Boat through Ratargul" data-s="Sylhet, 11 Jul"><span class="cap">Ratargul<small>21 photos</small></span></button>
+        <button class="tile wide p-dha" data-t="Rooftops at Shankhari Bazar" data-s="Old Dhaka, 9 Sep"><svg viewBox="0 0 320 120" preserveAspectRatio="xMidYMax slice"><g fill="#4a3346"><path d="M0 120V70h26v-8h30v14h22V58h34v18h20V66h28v-10h36v20h24V62h30v12h26V68h44v52z"/></g><g fill="#3a2838"><path d="M0 120V88h40v-6h46v10h38V84h52v8h40V80h56v10h48v30z"/></g><g fill="#f7c98a" opacity=".8"><rect x="36" y="96" width="4" height="5"/><rect x="104" y="100" width="4" height="5"/><rect x="190" y="98" width="4" height="5"/><rect x="262" y="94" width="4" height="5"/><rect x="146" y="92" width="4" height="5"/></g><g fill="#fff3e0"><path d="M92 26l7 7-7 7-7-7z"/><path d="M226 14l6 6-6 6-6-6z" fill="#ffd6e0"/><path d="M270 40l5 5-5 5-5-5z" fill="#c6f0ff"/></g><path d="M92 40c-6 18-2 30-16 44M226 26c4 20 10 28 2 48M270 50c6 10 2 24 10 30" stroke="#fff3e0" stroke-width=".6" fill="none" opacity=".7"/></svg><span class="cap">Old Dhaka rooftops<small>Kite day, 54 photos</small></span></button>
+        <button class="tile wide p-kap" data-t="Kaptai lake crossing" data-s="Rangamati, 28 Apr"><span class="cap">Kaptai lake<small>Rangamati, 19 photos</small></span></button>
+      </div>
+    </div>
+
+    <div class="toolbar glass" role="toolbar" aria-label="Library actions">
+      <button aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M12 4v11M7.5 8.5L12 4l4.5 4.5M5 14v4a2 2 0 002 2h10a2 2 0 002-2v-4"/></svg><span class="label">Share</span></button>
+      <button aria-label="Favourites"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg><span class="label">Favourites</span></button>
+      <span class="sep" aria-hidden="true"></span>
+      <button aria-label="New album"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h14M12 5v14"/></svg><span class="label">New album</span></button>
+      <button aria-label="Play slideshow"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5.5v13l10.5-6.5z"/></svg><span class="label">Play slideshow</span></button>
+    </div>
+  </section>
+
+  <!-- near: detail window, pulled forward -->
+  <section class="layer near" aria-labelledby="det-h">
+    <div class="window glass">
+      <div class="hero-photo p-cox" id="hero" aria-hidden="true"></div>
+      <div class="meta">
+        <h2 id="det-h">Sunset at Laboni Point</h2>
+        <p id="det-s">Cox’s Bazar, 6 Feb, 5:41 pm</p>
+        <div class="facts">
+          <div><b>24 mm</b><span>ƒ/1.8</span></div>
+          <div><b>1/640</b><span>ISO 80</span></div>
+          <div><b>3D</b><span>Spatial</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn primary">View in full space</button>
+          <button class="btn">Edit</button>
+        </div>
+      </div>
+    </div>
+    <span class="grab" aria-hidden="true"></span>
+  </section>
+
+  <a class="back glass" href="../#studies">Back to portfolio</a>
+</div>
+
+<script>
+  // Head-tracking stand-in: pointer position drives parallax per depth layer.
+  const root=document.documentElement;
+  const still=matchMedia('(prefers-reduced-motion: reduce)');
+  addEventListener('pointermove',e=>{
+    if(still.matches) return;
+    root.style.setProperty('--mx',((e.clientX/innerWidth)-.5)*2);
+    root.style.setProperty('--my',((e.clientY/innerHeight)-.5)*2);
+  });
+  // Selecting a tile opens it in the near window.
+  const hero=document.getElementById('hero'),t=document.getElementById('det-h'),s=document.getElementById('det-s');
+  document.querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.tile').forEach(x=>x.removeAttribute('aria-current'));
+    b.setAttribute('aria-current','true');
+    hero.className='hero-photo '+[...b.classList].find(c=>c.startsWith('p-'));
+    hero.innerHTML=b.querySelector('svg')?b.querySelector('svg').outerHTML:'';
+    t.textContent=b.dataset.t; s.textContent=b.dataset.s;
+  }));
+  document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');}));
+</script>
+</body>
+</html>

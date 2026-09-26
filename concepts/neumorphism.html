@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neumorphism — Home climate controller · Shaifur Rahaman</title>
+<meta name="description" content="Style study: a smart-home climate controller for a Dhaka flat, built in soft UI (neumorphism) with readable contrast.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&family=Hind+Siliguri:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#e2e7ee;
+  --hi:#ffffff;
+  --lo:#b0bac7;
+  --ink:#1b2533;      /* 12.9:1 on surface */
+  --sub:#465264;      /* 6.6:1 on surface */
+  --accent:#1f56c9;   /* 5.2:1 on surface, used for active state text + arcs */
+  --raise:9px 9px 20px var(--lo),-9px -9px 20px var(--hi);
+  --raise-sm:5px 5px 11px var(--lo),-5px -5px 11px var(--hi);
+  --press:inset 5px 5px 10px var(--lo),inset -5px -5px 10px var(--hi);
+  --press-sm:inset 3px 3px 6px var(--lo),inset -3px -3px 6px var(--hi);
+  --font:"Lexend","Hind Siliguri",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--surface);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;background:var(--surface);border:0;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.wrap{max-width:1360px;margin:0 auto;padding:26px 40px 20px;min-height:100vh;display:flex;flex-direction:column;gap:26px}
+
+/* top */
+.top{display:flex;align-items:center;gap:28px}
+.home{display:flex;align-items:center;gap:14px}
+.home .logo{width:48px;height:48px;border-radius:16px;box-shadow:var(--raise-sm);display:grid;place-items:center}
+.home .logo svg{width:24px;height:24px}
+.home b{display:block;font-weight:600;font-size:18px}
+.home span{font-size:14px;color:var(--sub)}
+.tabs{display:flex;gap:6px;padding:6px;border-radius:22px;box-shadow:var(--press);margin-left:auto}
+.tab{padding:11px 20px;border-radius:16px;font-size:15px;font-weight:400;color:var(--sub)}
+.tab[aria-selected="true"]{box-shadow:var(--raise-sm);color:var(--ink);font-weight:500}
+.out{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--sub);text-align:right}
+.out b{display:block;color:var(--ink);font-weight:500;font-size:16px}
+
+/* main */
+.main{flex:1;display:grid;grid-template-columns:300px minmax(0,1fr) 340px;gap:40px;align-items:center}
+.card{border-radius:28px;box-shadow:var(--raise);padding:22px 24px}
+h2{font-size:15px;font-weight:500;color:var(--sub)}
+.col{display:flex;flex-direction:column;gap:26px}
+
+.reading{display:flex;align-items:baseline;gap:6px;margin-top:6px}
+.reading strong{font-size:48px;font-weight:300;letter-spacing:-.03em;line-height:1}
+.reading small{font-size:18px;color:var(--sub)}
+.note{font-size:14px;color:var(--sub);margin-top:6px;line-height:1.45}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.well{border-radius:18px;box-shadow:var(--press-sm);padding:12px 14px}
+.well span{font-size:13px;color:var(--sub);display:block}
+.well b{font-size:20px;font-weight:500}
+.bar{height:10px;border-radius:6px;box-shadow:var(--press-sm);margin-top:14px;padding:2px}
+.bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#6f93e6,var(--accent))}
+.sched{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:12px}
+.sched li{display:flex;justify-content:space-between;font-size:15px}
+.sched li span{color:var(--sub)}
+
+/* dial */
+.center{display:flex;flex-direction:column;align-items:center;gap:26px}
+.switcher{display:flex;padding:6px;border-radius:22px;box-shadow:var(--press)}
+.switcher button{padding:11px 26px;border-radius:16px;font-size:15px;color:var(--sub);display:flex;align-items:center;gap:9px}
+.switcher button svg{width:18px;height:18px}
+.switcher button[aria-pressed="true"]{box-shadow:var(--raise-sm);color:var(--accent);font-weight:500}
+.dial{position:relative;width:min(470px,100%);aspect-ratio:1;border-radius:50%;box-shadow:14px 14px 32px var(--lo),-14px -14px 32px var(--hi);display:grid;place-items:center}
+.dial svg.track{position:absolute;inset:0;width:100%;height:100%}
+.knob{width:62%;aspect-ratio:1;border-radius:50%;background:linear-gradient(145deg,#eef2f7,#d2d9e2);box-shadow:10px 10px 22px var(--lo),-10px -10px 22px var(--hi);position:relative;display:grid;place-items:center;text-align:center}
+.knob::before{content:"";position:absolute;inset:14px;border-radius:50%;box-shadow:var(--press-sm)}
+.pointer{position:absolute;inset:0;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.pointer i{position:absolute;left:50%;top:26px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--surface),0 0 12px rgba(31,86,201,.55)}
+.value{position:relative}
+.value .big{font-size:96px;font-weight:300;letter-spacing:-.05em;line-height:1}
+.value .big sup{font-size:.36em;vertical-align:1.3em;letter-spacing:0;margin-left:2px}
+.value .lbl{font-size:15px;color:var(--sub);margin-top:6px}
+.value .lbl b{color:var(--accent);font-weight:500}
+.steps{display:flex;align-items:center;gap:28px}
+.round{width:64px;height:64px;border-radius:50%;box-shadow:var(--raise-sm);display:grid;place-items:center}
+.round svg{width:22px;height:22px}
+.round:active{box-shadow:var(--press)}
+.steps p{font-size:14px;color:var(--sub);min-width:190px;text-align:center}
+
+/* right */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.mode{border-radius:20px;box-shadow:var(--raise-sm);padding:16px;text-align:left;display:flex;flex-direction:column;gap:12px;font-size:15px;font-weight:500}
+.mode svg{width:24px;height:24px;color:var(--sub)}
+.mode small{font-size:13px;font-weight:400;color:var(--sub)}
+.mode[aria-pressed="true"]{box-shadow:var(--press);color:var(--accent)}
+.mode[aria-pressed="true"] svg{color:var(--accent)}
+.toggles{list-style:none;display:flex;flex-direction:column;gap:16px;margin-top:14px}
+.toggles li{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:15px}
+.toggles li span small{display:block;font-size:13px;color:var(--sub);margin-top:2px}
+.sw{width:62px;height:34px;border-radius:20px;box-shadow:var(--press-sm);position:relative;flex:none}
+.sw::after{content:"";position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;background:linear-gradient(145deg,#f1f4f8,#d3dae3);box-shadow:3px 3px 6px var(--lo),-2px -2px 5px var(--hi);transition:transform .25s}
+.sw[aria-checked="true"]::after{transform:translateX(28px);background:linear-gradient(145deg,#4a7ae0,var(--accent))}
+
+.fan-spin{transform-origin:12px 12px}
+.spinning .fan-spin{animation:spin var(--spd,1.4s) linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+footer{display:flex;justify-content:space-between;font-size:13px;color:var(--sub)}
+footer a{color:var(--ink);text-decoration:none;padding:8px 14px;border-radius:12px;box-shadow:var(--raise-sm)}
+footer a:hover{box-shadow:var(--press-sm)}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (max-width:1180px){
+  .main{grid-template-columns:1fr 1fr;align-items:start}
+  .center{grid-column:1/-1;order:-1}
+  .top{flex-wrap:wrap}
+  .tabs{margin-left:0;order:3;width:100%;overflow-x:auto}
+}
+@media (max-width:700px){
+  .wrap{padding:18px 16px 22px;gap:22px}
+  .main{grid-template-columns:minmax(0,1fr);gap:26px}
+  .out{margin-left:auto}
+  .tab{padding:10px 14px;font-size:14px;white-space:nowrap}
+  .value .big{font-size:72px}
+  .steps{gap:14px}
+  .steps p{min-width:0;flex:1}
+  .switcher button{padding:10px 18px}
+  footer{flex-direction:column;gap:14px;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  .spinning .fan-spin{animation:none}
+  .pointer,.sw::after{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="home">
+      <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#1f56c9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></div>
+      <div><b>Dhanmondi flat</b><span>Road 9A, 5th floor</span></div>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Rooms">
+      <button class="tab" role="tab" aria-selected="true">Bedroom</button>
+      <button class="tab" role="tab" aria-selected="false">Living room</button>
+      <button class="tab" role="tab" aria-selected="false">Study</button>
+      <button class="tab" role="tab" aria-selected="false">Kids’ room</button>
+    </div>
+    <div class="out"><div><b>33° outside</b>Humid, 81%</div></div>
+  </header>
+
+  <main class="main">
+    <div class="col">
+      <section class="card" aria-labelledby="room-h">
+        <h2 id="room-h">Bedroom right now</h2>
+        <div class="reading"><strong>29.4°</strong><small>indoors</small></div>
+        <p class="note">Cooling for 12 more minutes to reach your target.</p>
+        <div class="pair">
+          <div class="well"><span>Humidity</span><b>72%</b></div>
+          <div class="well"><span>Air quality</span><b>Good</b></div>
+        </div>
+      </section>
+      <section class="card" aria-labelledby="energy-h">
+        <h2 id="energy-h">Energy today</h2>
+        <div class="reading"><strong>4.1</strong><small>kWh, about ৳37</small></div>
+        <div class="bar" role="img" aria-label="62% of your 6.6 kWh daily budget"><i style="width:62%"></i></div>
+        <p class="note">62% of your daily budget. Eco mode would save around ৳9 tonight.</p>
+      </section>
+      <section class="card" aria-labelledby="sched-h">
+        <h2 id="sched-h">Tonight’s schedule</h2>
+        <ul class="sched">
+          <li>AC to 26° <span>at 1:00 am</span></li>
+          <li>Fan to speed 2 <span>at 4:30 am</span></li>
+          <li>Everything off <span>at 6:30 am</span></li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="center" aria-label="Climate control">
+      <div class="switcher" role="group" aria-label="Device">
+        <button type="button" aria-pressed="true" data-dev="ac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="8" rx="2"/><path d="M6 10h12M8 16l-1 3M12 16v3M16 16l1 3"/></svg>Air conditioner</button>
+        <button type="button" aria-pressed="false" data-dev="fan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><g class="fan-spin"><path d="M12 12c0-4 1-7 4-7 2 0 2.5 3-4 7zM12 12c4 0 7 1 7 4 0 2-3 2.5-7-4zM12 12c0 4-1 7-4 7-2 0-2.5-3 4-7zM12 12c-4 0-7-1-7-4 0-2 3-2.5 7 4z"/></g></svg>Ceiling fan</button>
+      </div>
+
+      <div class="dial">
+        <svg class="track" viewBox="0 0 200 200" aria-hidden="true">
+          <g id="ticks" stroke="#8793a3" stroke-width="1" stroke-linecap="round"></g>
+          <path id="arcBg" fill="none" stroke="#cfd6df" stroke-width="5" stroke-linecap="round"/>
+          <path id="arc" fill="none" stroke="#1f56c9" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div class="knob">
+          <div class="pointer" id="pointer"><i></i></div>
+          <div class="value" aria-live="polite">
+            <div class="big" id="big">24<sup>°</sup></div>
+            <div class="lbl" id="lbl"><b>Cooling</b> to 24°</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <button class="round" type="button" id="down" aria-label="Lower"><svg viewBox="0 0 24 24" fill="none" stroke="#1b2533" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+        <p id="hint">Most people in Dhaka sleep well at 25–26°</p>
+        <button class="round" type="button" id="up" aria-label="Raise"><svg viewBox="0 0 24 24" fill="none" stroke="#1b2533" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></button>
+      </div>
+    </section>
+
+    <div class="col">
+      <section class="card" aria-labelledby="mode-h">
+        <h2 id="mode-h">AC mode</h2>
+        <div class="modes" role="group" aria-labelledby="mode-h">
+          <button class="mode" type="button" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M4 7l16 10M20 7L4 17M9 3.5l3 2.5 3-2.5M9 20.5l3-2.5 3 2.5"/></svg>Cool<small>Fastest to target</small></button>
+          <button class="mode" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c4 5 6 8.2 6 11a6 6 0 0 1-12 0c0-2.8 2-6 6-11z"/></svg>Dry<small>Pulls out damp</small></button>
+          <button class="mode" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h8"/></svg>Fan only<small>No compressor</small></button>
+          <button class="mode" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M9 15l3-7 3 7M10 13h4"/></svg>Auto<small>Picks for you</small></button>
+        </div>
+      </section>
+      <section class="card" aria-labelledby="opt-h">
+        <h2 id="opt-h">Comfort</h2>
+        <ul class="toggles">
+          <li><span>Swing<small>Sweep air up and down</small></span><button class="sw" role="switch" aria-checked="true" aria-label="Swing"></button></li>
+          <li><span>Eco<small>Holds 1° warmer after midnight</small></span><button class="sw" role="switch" aria-checked="false" aria-label="Eco"></button></li>
+          <li><span>Quiet<small>Lowers the indoor unit fan</small></span><button class="sw" role="switch" aria-checked="true" aria-label="Quiet"></button></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <span>Style study: neumorphism, tuned for readable contrast</span>
+    <a href="../#studies">Back to portfolio</a>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var C=100,R=86,START=135,SWEEP=270;
+  function pt(a){var r=(a-90)*Math.PI/180;return [C+R*Math.cos(r),C+R*Math.sin(r)]}
+  function arc(a0,a1){var p0=pt(a0),p1=pt(a1),large=(a1-a0)>180?1:0;return 'M'+p0[0].toFixed(2)+' '+p0[1].toFixed(2)+' A'+R+' '+R+' 0 '+large+' 1 '+p1[0].toFixed(2)+' '+p1[1].toFixed(2)}
+  // angles measured clockwise from 12 o'clock; track runs from 225 (7:30) through 0 to 135 (4:30)
+  var A0=-135,A1=135;
+  var ticks=document.getElementById('ticks'),s='';
+  for(var i=0;i<=54;i++){var a=A0+i*(SWEEP/54),r=(a-90)*Math.PI/180,long=i%9===0,r1=long?94:95.5,r2=99;
+    s+='<line x1="'+(C+r1*Math.cos(r)).toFixed(2)+'" y1="'+(C+r1*Math.sin(r)).toFixed(2)+'" x2="'+(C+r2*Math.cos(r)).toFixed(2)+'" y2="'+(C+r2*Math.sin(r)).toFixed(2)+'"'+(long?' stroke="#465264" stroke-width="1.4"':'')+'/>';}
+  ticks.innerHTML=s;
+  document.getElementById('arcBg').setAttribute('d',arc(A0,A1));
+  var dev={ac:{min:16,max:30,v:24},fan:{min:0,max:5,v:3}},cur='ac';
+  var big=document.getElementById('big'),lbl=document.getElementById('lbl'),hint=document.getElementById('hint'),ptr=document.getElementById('pointer'),arcEl=document.getElementById('arc');
+  var fanBtn=document.querySelector('[data-dev="fan"]');
+  function render(){
+    var d=dev[cur],t=(d.v-d.min)/(d.max-d.min),a=A0+t*SWEEP;
+    arcEl.setAttribute('d',t>0?arc(A0,a):'');
+    ptr.style.transform='rotate('+a+'deg)';
+    if(cur==='ac'){big.innerHTML=d.v+'<sup>°</sup>';lbl.innerHTML='<b>Cooling</b> to '+d.v+'°';hint.textContent=d.v<=22?'Below 23° uses noticeably more power':'Most people in Dhaka sleep well at 25–26°';}
+    else{big.textContent=d.v;lbl.innerHTML=d.v?'<b>Fan speed</b> '+d.v+' of 5':'<b>Fan</b> off';hint.textContent=d.v>=4?'High speed, good for load-shedding nights':'Regulator speeds 0 to 5';}
+    var f=dev.fan.v;fanBtn.classList.toggle('spinning',f>0);fanBtn.style.setProperty('--spd',(2.6-f*.4)+'s');
+  }
+  function step(n){var d=dev[cur];d.v=Math.max(d.min,Math.min(d.max,d.v+n));render()}
+  document.getElementById('up').onclick=function(){step(1)};
+  document.getElementById('down').onclick=function(){step(-1)};
+  document.querySelectorAll('.switcher button').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.switcher button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});cur=b.dataset.dev;render()}});
+  document.querySelectorAll('.mode').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.mode').forEach(function(x){x.setAttribute('aria-pressed',x===b)})}});
+  document.querySelectorAll('.sw').forEach(function(b){b.onclick=function(){b.setAttribute('aria-checked',b.getAttribute('aria-checked')!=='true')}});
+  document.querySelectorAll('.tab').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.setAttribute('aria-selected',x===b)});
+    document.getElementById('room-h').textContent=b.textContent+' right now'}});
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora — Focus and sleep sounds · Shaifur Rahaman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#050A1C;
+  --deep:#0C1433;
+  --teal:#3DEBC4;
+  --violet:#8B6BFF;
+  --rose:#FF73B3;
+  --mist:#D9DFF7;
+  --mist-dim:rgba(217,223,247,.66);
+  --line:rgba(217,223,247,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--night)}
+body{font-family:"Onest",system-ui,sans-serif;color:var(--mist);min-height:100vh;overflow-x:hidden;position:relative}
+a,button{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--teal);outline-offset:4px;border-radius:12px}
+
+/* aurora: one oversized, blurred mesh layer drifting slowly */
+.sky{position:fixed;inset:0;overflow:hidden;z-index:0;background:radial-gradient(120% 80% at 50% 110%, #0E1740 0, var(--night) 60%)}
+.aurora{position:absolute;inset:-35%;filter:blur(70px) saturate(1.15);opacity:.9;
+  background:
+    radial-gradient(28% 22% at 30% 38%, rgba(61,235,196,.75) 0, transparent 70%),
+    radial-gradient(30% 18% at 52% 30%, rgba(61,235,196,.35) 0, transparent 70%),
+    radial-gradient(26% 26% at 66% 44%, rgba(139,107,255,.8) 0, transparent 70%),
+    radial-gradient(22% 20% at 78% 30%, rgba(255,115,179,.55) 0, transparent 70%),
+    radial-gradient(34% 20% at 42% 58%, rgba(52,98,255,.45) 0, transparent 70%);
+  animation:drift 48s ease-in-out infinite alternate;transform-origin:50% 45%}
+.aurora::before,.aurora::after{content:"";position:absolute;border-radius:50%;filter:blur(18px);mix-blend-mode:screen}
+.aurora::before{left:22%;top:30%;width:62%;height:12%;transform:rotate(-12deg);
+  background:linear-gradient(90deg,transparent,rgba(61,235,196,.9) 25%,rgba(120,255,220,.8) 45%,rgba(139,107,255,.8) 70%,transparent)}
+.aurora::after{left:34%;top:38%;width:50%;height:7%;transform:rotate(-7deg);
+  background:linear-gradient(90deg,transparent,rgba(139,107,255,.7) 30%,rgba(255,115,179,.75) 70%,transparent)}
+.curtain{position:absolute;inset:0;opacity:.55;mix-blend-mode:screen;
+  background:repeating-linear-gradient(96deg, transparent 0 38px, rgba(160,255,230,.10) 38px 40px, transparent 40px 90px);
+  -webkit-mask:radial-gradient(60% 40% at 45% 32%, #000 0, transparent 75%);mask:radial-gradient(60% 40% at 45% 32%, #000 0, transparent 75%)}
+.grain{position:absolute;inset:0;opacity:.12;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes drift{
+  0%{transform:translate3d(-4%,2%,0) rotate(-6deg) scale(1)}
+  50%{transform:translate3d(3%,-3%,0) rotate(4deg) scale(1.08)}
+  100%{transform:translate3d(6%,3%,0) rotate(10deg) scale(1.02)}
+}
+
+.app{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:30px 48px 40px;min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;gap:24px}
+.top{display:flex;align-items:center;gap:40px}
+.brand{font-family:"Instrument Serif",serif;font-size:32px;letter-spacing:-.01em}
+.modes{display:flex;gap:6px;padding:5px;border-radius:999px;background:rgba(12,20,51,.45);border:1px solid var(--line);backdrop-filter:blur(12px)}
+.modes button{padding:9px 20px;border-radius:999px;font-size:15px;color:var(--mist-dim)}
+.modes button[aria-pressed="true"]{background:rgba(217,223,247,.12);color:var(--mist)}
+.clock{margin-left:auto;font-size:15px;color:var(--mist-dim)}
+
+.stage{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:56px;align-items:end}
+
+/* now playing */
+.now{padding-bottom:6px}
+.now .kicker{font-size:15px;color:var(--teal);display:flex;align-items:center;gap:10px}
+.now .kicker i{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
+.now h1{font-family:"Instrument Serif",serif;font-weight:400;font-size:clamp(56px,8.2vw,124px);line-height:.92;letter-spacing:-.02em;margin-top:18px;text-shadow:0 0 60px rgba(139,107,255,.35)}
+.now h1 em{display:block;font-style:italic;color:rgba(217,223,247,.78)}
+.now .where{margin-top:22px;font-size:18px;line-height:1.55;color:var(--mist-dim);max-width:520px;font-weight:300}
+.wave{margin-top:34px;display:flex;align-items:center;gap:18px;max-width:640px}
+.wave svg{flex:1;height:44px}
+.wave span{font-size:14px;color:var(--mist-dim);font-variant-numeric:tabular-nums}
+.controls{margin-top:26px;display:flex;align-items:center;gap:22px}
+.ctl{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:rgba(12,20,51,.35);backdrop-filter:blur(10px)}
+.play{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:var(--mist);color:var(--night);
+  box-shadow:0 0 0 8px rgba(217,223,247,.08),0 0 60px rgba(61,235,196,.35)}
+.mix{margin-left:12px;display:flex;gap:26px;font-size:14px;color:var(--mist-dim)}
+.mix label{display:grid;gap:8px;min-width:96px}
+.mix .track{height:4px;border-radius:4px;background:rgba(217,223,247,.16);position:relative}
+.mix .track i{position:absolute;inset:0 auto 0 0;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--violet))}
+
+/* right column */
+.side{display:grid;gap:22px}
+.panel{border-radius:28px;background:linear-gradient(160deg,rgba(20,28,68,.55),rgba(8,12,34,.55));border:1px solid var(--line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:26px 28px}
+.timer{display:flex;align-items:center;gap:26px}
+.ring{position:relative;width:132px;height:132px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:"Instrument Serif",serif;font-weight:400;font-size:40px;font-variant-numeric:tabular-nums}
+.timer h2{font-size:17px;font-weight:500}
+.timer p{font-size:15px;color:var(--mist-dim);margin-top:6px;line-height:1.5}
+.chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.chips button{padding:6px 14px;border-radius:999px;border:1px solid var(--line);font-size:14px;color:var(--mist-dim)}
+.chips button[aria-pressed="true"]{border-color:rgba(61,235,196,.6);color:var(--teal)}
+
+.queue h2{font-size:17px;font-weight:500;display:flex;justify-content:space-between;align-items:baseline}
+.queue h2 small{font-size:14px;color:var(--mist-dim);font-weight:400}
+.queue ol{list-style:none;margin-top:10px}
+.queue li{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.queue li:first-child{border-top:0}
+.swatch{width:44px;height:44px;border-radius:14px}
+.queue .t{font-size:16px}
+.queue .s{font-size:14px;color:var(--mist-dim);margin-top:2px}
+.queue .d{font-size:14px;color:var(--mist-dim);font-variant-numeric:tabular-nums}
+
+.foot{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--mist-dim)}
+.foot a{color:var(--mist-dim);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+.foot a:hover{color:var(--mist)}
+
+@media (max-width:1060px){
+  .stage{grid-template-columns:minmax(0,1fr);gap:36px}
+  .mix{margin-left:0}
+}
+@media (max-width:600px){
+  .app{padding:20px 16px 28px}
+  .top{gap:14px;flex-wrap:wrap}
+  .clock{margin-left:auto}
+  .modes{order:3;width:100%;justify-content:space-between}
+  .modes button{padding:8px 14px}
+  .controls{flex-wrap:wrap;gap:16px}
+  .mix{width:100%;gap:18px}
+  .mix label{min-width:0;flex:1}
+  .wave{gap:10px}
+  .wave svg{min-width:0}
+  .timer{flex-direction:column;align-items:flex-start}
+  .panel{padding:22px 20px}
+  .foot{flex-direction:column;gap:10px;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){.aurora{animation:none}}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"><div class="aurora"></div><div class="curtain"></div><div class="grain"></div></div>
+<main class="app">
+  <header class="top">
+    <div class="brand">Nirob</div>
+    <div class="modes" role="group" aria-label="Mode">
+      <button type="button" aria-pressed="false">Focus</button>
+      <button type="button" aria-pressed="true">Sleep</button>
+      <button type="button" aria-pressed="false">Nap</button>
+    </div>
+    <div class="clock">11:48 pm, lights low</div>
+  </header>
+
+  <section class="stage">
+    <div class="now" aria-labelledby="np-title">
+      <p class="kicker"><i aria-hidden="true"></i>Now playing, a field recording</p>
+      <h1 id="np-title">Rain on a <em>tin roof, Sylhet</em></h1>
+      <p class="where">A monsoon night on a tea-garden cottage near Srimangal. Steady rain on corrugated tin, a gutter spilling into a drum, frogs somewhere past the hedge.</p>
+      <div class="wave">
+        <span>12:40</span>
+        <svg viewBox="0 0 600 44" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="wg" x1="0" x2="1"><stop offset="0" stop-color="#3DEBC4"/><stop offset=".42" stop-color="#8B6BFF"/><stop offset=".42" stop-color="rgba(217,223,247,.25)"/><stop offset="1" stop-color="rgba(217,223,247,.25)"/></linearGradient></defs>
+          <path fill="url(#wg)" d="M0 20h4v4H0zM8 16h4v12H8zM16 18h4v8h-4zM24 12h4v20h-4zM32 15h4v14h-4zM40 10h4v24h-4zM48 17h4v10h-4zM56 13h4v18h-4zM64 8h4v28h-4zM72 14h4v16h-4zM80 18h4v8h-4zM88 11h4v22h-4zM96 15h4v14h-4zM104 9h4v26h-4zM112 16h4v12h-4zM120 12h4v20h-4zM128 18h4v8h-4zM136 14h4v16h-4zM144 7h4v30h-4zM152 13h4v18h-4zM160 17h4v10h-4zM168 11h4v22h-4zM176 15h4v14h-4zM184 10h4v24h-4zM192 16h4v12h-4zM200 12h4v20h-4zM208 18h4v8h-4zM216 9h4v26h-4zM224 14h4v16h-4zM232 17h4v10h-4zM240 12h4v20h-4zM248 8h4v28h-4zM256 15h4v14h-4zM264 13h4v18h-4zM272 17h4v10h-4zM280 11h4v22h-4zM288 16h4v12h-4zM296 10h4v24h-4zM304 14h4v16h-4zM312 18h4v8h-4zM320 12h4v20h-4zM328 15h4v14h-4zM336 9h4v26h-4zM344 16h4v12h-4zM352 13h4v18h-4zM360 17h4v10h-4zM368 11h4v22h-4zM376 14h4v16h-4zM384 8h4v28h-4zM392 16h4v12h-4zM400 12h4v20h-4zM408 18h4v8h-4zM416 10h4v24h-4zM424 15h4v14h-4zM432 13h4v18h-4zM440 17h4v10h-4zM448 11h4v22h-4zM456 14h4v16h-4zM464 9h4v26h-4zM472 16h4v12h-4zM480 12h4v20h-4zM488 18h4v8h-4zM496 13h4v18h-4zM504 10h4v24h-4zM512 15h4v14h-4zM520 17h4v10h-4zM528 12h4v20h-4zM536 16h4v12h-4zM544 11h4v22h-4zM552 14h4v16h-4zM560 18h4v8h-4zM568 13h4v18h-4zM576 16h4v12h-4zM584 19h4v6h-4zM592 20h4v4h-4z"/>
+        </svg>
+        <span>45:00</span>
+      </div>
+      <div class="controls">
+        <button class="ctl" type="button" aria-label="Previous sound"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M4 3v12M15 3 6 9l9 6z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+        <button class="play" type="button" aria-label="Pause"><svg width="26" height="26" viewBox="0 0 26 26"><rect x="6" y="4" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="15" y="4" width="5" height="18" rx="1.5" fill="currentColor"/></svg></button>
+        <button class="ctl" type="button" aria-label="Next sound"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M14 3v12M3 3l9 6-9 6z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+        <div class="mix" aria-label="Sound layers">
+          <label>Rain<span class="track"><i style="width:80%"></i></span></label>
+          <label>Far thunder<span class="track"><i style="width:22%"></i></span></label>
+          <label>Frogs<span class="track"><i style="width:40%"></i></span></label>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <section class="panel timer" aria-labelledby="timer-title">
+        <div class="ring">
+          <svg viewBox="0 0 132 132" aria-hidden="true">
+            <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3DEBC4"/><stop offset="1" stop-color="#FF73B3"/></linearGradient></defs>
+            <circle cx="66" cy="66" r="58" fill="none" stroke="rgba(217,223,247,.12)" stroke-width="6"/>
+            <circle cx="66" cy="66" r="58" fill="none" stroke="url(#rg)" stroke-width="6" stroke-linecap="round" stroke-dasharray="364.4" stroke-dashoffset="103"/>
+          </svg>
+          <b>32:20</b>
+        </div>
+        <div>
+          <h2 id="timer-title">Sleep timer</h2>
+          <p>The rain fades out over the last five minutes, then the phone goes quiet.</p>
+          <div class="chips" role="group" aria-label="Timer length">
+            <button type="button" aria-pressed="false">20 min</button>
+            <button type="button" aria-pressed="true">45 min</button>
+            <button type="button" aria-pressed="false">Until morning</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel queue" aria-labelledby="q-title">
+        <h2 id="q-title">Up next <small>1 h 35 min</small></h2>
+        <ol>
+          <li><span class="swatch" style="background:radial-gradient(circle at 30% 30%,#8B6BFF,#2A1E6B)"></span><div><div class="t">Ceiling fan, Dhanmondi flat</div><div class="s">Steady hum with a slight wobble</div></div><span class="d">30:00</span></li>
+          <li><span class="swatch" style="background:radial-gradient(circle at 30% 30%,#3DEBC4,#0D4A4A)"></span><div><div class="t">Night train to Chattogram</div><div class="s">Wheels on joints, a far horn</div></div><span class="d">40:00</span></li>
+          <li><span class="swatch" style="background:radial-gradient(circle at 30% 30%,#FF73B3,#4A1640)"></span><div><div class="t">Crickets over paddy, Mymensingh</div><div class="s">Late autumn, no wind</div></div><span class="d">25:00</span></li>
+        </ol>
+      </section>
+    </aside>
+  </section>
+
+  <footer class="foot">
+    <span>Headphones connected. Volume limited to 60%.</span>
+    <a href="../#studies">Back to portfolio</a>
+  </footer>
+</main>
+<script>
+  // single interaction: toggle play and pause
+  const p=document.querySelector('.play');
+  const pause='<svg width="26" height="26" viewBox="0 0 26 26"><rect x="6" y="4" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="15" y="4" width="5" height="18" rx="1.5" fill="currentColor"/></svg>';
+  const play='<svg width="26" height="26" viewBox="0 0 26 26"><path d="M8 4.5v17l14-8.5z" fill="currentColor"/></svg>';
+  p.addEventListener('click',()=>{const on=p.getAttribute('aria-label')==='Pause';p.setAttribute('aria-label',on?'Play':'Pause');p.innerHTML=on?play:pause});
+</script>
+</body>
+</html>

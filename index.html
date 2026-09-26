@@ -62,7 +62,7 @@ section+section{border-top:1px solid var(--line)}
 .facts div b{color:var(--text); font-weight:600}
 
 /* capability grid */
-.caps{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:22px}
+.caps{display:grid; grid-template-columns:repeat(auto-fit,minmax(195px,1fr)); gap:22px}
 .cap{display:flex; flex-direction:column; gap:6px}
 .cap p{font-size:14.5px; color:var(--text-2)}
 
@@ -97,14 +97,37 @@ figcaption{font-size:11px; color:var(--text-3); margin-top:7px; text-align:cente
 .sw .meta{font-size:11.5px; line-height:1.4; color:var(--text-3); margin-top:7px}
 .sw .meta b{display:block; color:var(--text); font-weight:600}
 
-/* upcoming slots */
-.slot{
-  border:1px dashed var(--line-2); border-radius:12px; padding:22px 24px;
-  display:flex; flex-direction:column; gap:5px; background:var(--surface);
-}
-.slot span{font-size:11px; font-weight:600; letter-spacing:.13em; text-transform:uppercase; color:var(--text-3)}
-.slot p{font-size:14px; color:var(--text-3)}
-.slots{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px}
+/* top bar */
+.top{position:sticky; top:0; z-index:5; background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+.top .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; height:54px}
+.top .name{font-family:var(--serif); font-size:18px; color:var(--text)}
+.top nav{display:flex; gap:18px; font-size:13.5px}
+.top nav a{color:var(--text-2)}
+.top nav a:hover{color:var(--accent-deep)}
+@media (max-width:480px){ .top nav{gap:12px} .top .name{font-size:16px} }
+
+/* project meta line */
+.meta-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:4px}
+
+/* web screenshots */
+.web-gallery{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-block:6px 18px}
+.web-gallery .shot img{aspect-ratio:16/10; object-fit:cover; object-position:top left}
+.web-gallery .wide{grid-column:1/-1}
+.web-gallery .wide img{aspect-ratio:auto}
+@media (max-width:580px){ .web-gallery{grid-template-columns:1fr} }
+.gallery.g4{grid-template-columns:repeat(4,1fr); gap:16px}
+@media (max-width:580px){ .gallery.g4{grid-template-columns:repeat(2,1fr)} }
+.sub{font-size:13px; font-weight:600; color:var(--text-2); margin-block:26px 12px}
+
+/* style studies */
+.studies{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:26px 18px}
+.study{display:flex; flex-direction:column; gap:9px; color:var(--text)}
+.study .thumb{border:1px solid var(--line-2); border-radius:11px; overflow:hidden; box-shadow:var(--lift); background:var(--soft)}
+.study .thumb img{width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; object-position:top; transition:transform .5s ease}
+.study:hover .thumb img{transform:scale(1.03)}
+.study h4{display:flex; justify-content:space-between; gap:10px}
+.study h4 span{font-weight:400; color:var(--text-3); font-size:12.5px}
+.study p{font-size:13.5px; line-height:1.5; color:var(--text-2)}
 
 /* contact */
 .contact{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px}
@@ -120,6 +143,17 @@ footer{border-top:1px solid var(--line); padding-block:22px 34px}
 .foot{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; font-size:12px; color:var(--text-3)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
 </style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="name" href="#">Shaifur Rahaman</a>
+    <nav aria-label="Sections">
+      <a href="#pinktrack">Work</a>
+      <a href="#studies">Studies</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
 
 <main>
   <div class="wrap">
@@ -170,7 +204,7 @@ footer{border-top:1px solid var(--line); padding-block:22px 34px}
       <p class="lede">A live bus-tracking app for Dhaka&rsquo;s women-only routes. Sole designer, and I built the UI in Jetpack Compose on Firebase.</p>
     </div>
 
-    <div class="gallery">
+    <div class="gallery g4">
       <figure><div class="shot"><img src="screens/01-login.jpg" alt="Sign-in screen with gradient header and Continue with Google"></div><figcaption>Sign in</figcaption></figure>
       <figure><div class="shot"><img src="screens/02-home-routes.jpg" alt="Home screen with live bus count and route list"></div><figcaption>Home</figcaption></figure>
       <figure><div class="shot"><img src="screens/03-live-map.jpg" alt="Live map with bus marker and tracking sheet"></div><figcaption>Live map</figcaption></figure>
@@ -178,6 +212,7 @@ footer{border-top:1px solid var(--line); padding-block:22px 34px}
       <figure><div class="shot"><img src="screens/05-profile.jpg" alt="Profile with credits panel"></div><figcaption>Profile</figcaption></figure>
       <figure><div class="shot"><img src="screens/06-plans-payg.jpg" alt="Pay as you go plan card"></div><figcaption>Credits</figcaption></figure>
       <figure><div class="shot"><img src="screens/07-plans-weekly.jpg" alt="Weekly plan card at fifteen taka"></div><figcaption>Plans</figcaption></figure>
+      <figure><div class="shot"><img src="screens/08-drawer.jpg" alt="Navigation drawer with Send SOS Alert and Report a Problem set apart below a divider" loading="lazy"></div><figcaption>Menu &amp; SOS</figcaption></figure>
     </div>
 
     <div class="stack" style="margin-top:34px">
@@ -207,14 +242,118 @@ footer{border-top:1px solid var(--line); padding-block:22px 34px}
     </div>
   </section>
 
-  <section id="more">
+  <section id="ecosync">
     <div class="sec-head">
-      <div class="eyebrow">Selected work</div>
-      <h2>More case studies</h2>
+      <div class="eyebrow">Selected work · 02</div>
+      <h2>EcoSync</h2>
+      <p class="lede">Waste management for Dhaka North City Corporation: an operations dashboard for the people who move the city&rsquo;s waste, and an Android app for the citizens who produce it. Built by a team of three from SUST for Code Samurai 2024.</p>
+      <div class="meta-row">
+        <span class="chip">Web · Next.js &amp; Ant Design</span>
+        <span class="chip">Android · Jetpack Compose</span>
+        <a class="chip" href="https://github.com/bipulhf/EcoSync" target="_blank" rel="noopener">Source on GitHub</a>
+      </div>
     </div>
-    <div class="slots">
-      <div class="slot"><span>02</span><h4>Project name</h4><p>A web app or dashboard — different problem type, different platform.</p></div>
-      <div class="slot"><span>03</span><h4>Project name</h4><p>Client work with a research phase and a measurable outcome.</p></div>
+
+    <div class="sub">Operations dashboard</div>
+    <div class="web-gallery">
+      <figure class="wide"><div class="shot"><img src="screens/ecosync/web-home.webp" alt="EcoSync landing page: Crafting tomorrow's Dhaka through waste innovation, with an illustrated waste truck" loading="lazy"></div><figcaption>Landing</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/web-dashboard.webp" alt="Admin dashboard with system, vehicle and contractor totals, a map of landfills and transfer stations, and live vehicle status" loading="lazy"></div><figcaption>Admin dashboard</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/web-sts-route.webp" alt="Transfer station detail with capacity and a routed map to the landfill showing 55 km and 1 hr 43 min" loading="lazy"></div><figcaption>Station to landfill route</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/web-schedule.webp" alt="Collection schedule map with colour-coded pins across Dhaka" loading="lazy"></div><figcaption>Collection schedule</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/web-fleet.webp" alt="Fleet optimisation table listing vehicles, capacity, remaining trips and cost per km" loading="lazy"></div><figcaption>Fleet optimisation</figcaption></figure>
+    </div>
+
+    <div class="sub">Citizen app</div>
+    <div class="gallery">
+      <figure><div class="shot"><img src="screens/ecosync/app-welcome.webp" alt="Welcome to EcoSync screen with Google and email sign-up" loading="lazy"></div><figcaption>Welcome</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/app-events.webp" alt="Events list of cleanups, workshops and seminars" loading="lazy"></div><figcaption>Events</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/app-rating.webp" alt="Event rating with stars and a comment" loading="lazy"></div><figcaption>Rate an event</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/app-polls.webp" alt="Community poll with live percentage bars" loading="lazy"></div><figcaption>Polls</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/app-report.webp" alt="Report an issue with a photo upload area" loading="lazy"></div><figcaption>Report an issue</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/app-notices.webp" alt="Announcements from the city about dumping stations and schedules" loading="lazy"></div><figcaption>Announcements</figcaption></figure>
+      <figure><div class="shot"><img src="screens/ecosync/app-profile.webp" alt="Profile with polls, posts, liked events and attended events" loading="lazy"></div><figcaption>Profile</figcaption></figure>
+    </div>
+
+    <div class="stack" style="margin-top:34px">
+      <div class="item"><div class="k">Problem</div><p><b>Four roles share one system</b> — admin, station manager, landfill manager and contractor manager — and each needs a different slice of the same trucks, tonnes and routes.</p></div>
+      <div class="item"><div class="k">Constraints</div><p>A competition timeline, operators working from map-heavy desktop screens, and citizens on budget Android phones.</p></div>
+    </div>
+
+    <h3 style="margin-top:38px">Decisions</h3>
+    <div class="dec" style="margin-top:16px">
+      <div><h4>The header says who you are</h4><p>The top bar changes colour by role — blue for admin, green for a station manager — so nobody edits a landfill while thinking they are looking at a station.</p></div>
+      <div><h4>Answer the dispatcher&rsquo;s question</h4><p>A station page leads with distance and drive time to its landfill, drawn on the map, because that is what decides the next truck.</p></div>
+      <div><h4>Citizens act, not just read</h4><p>The app is built around doing something: join a cleanup, vote in a poll, photograph an overflowing bin. Announcements are one tab of five, not the home screen.</p></div>
+    </div>
+  </section>
+
+  <section id="studies">
+    <div class="sec-head">
+      <div class="eyebrow">Style studies</div>
+      <h2>Twelve screens, twelve visual languages</h2>
+      <p class="lede">Small, complete product screens, each built in one modern UI style with that style&rsquo;s real techniques. Every one is live HTML and CSS, so open them and resize.</p>
+    </div>
+    <div class="studies">
+      <a class="study" href="concepts/glassmorphism.html">
+        <div class="thumb"><img src="concepts/thumbs/glassmorphism.webp" alt="Glassmorphism style study: A monsoon forecast for Dhaka with neighbourhood waterlogging risk, on glass with a refractive rim." loading="lazy" width="960" height="600"></div>
+        <h4>Glassmorphism <span>Weather</span></h4>
+        <p>A monsoon forecast for Dhaka with neighbourhood waterlogging risk, on glass with a refractive rim.</p>
+      </a>
+      <a class="study" href="concepts/neumorphism.html">
+        <div class="thumb"><img src="concepts/thumbs/neumorphism.webp" alt="Neumorphism style study: A climate controller for a Dhanmondi flat — soft extruded controls, tuned for readable contrast." loading="lazy" width="960" height="600"></div>
+        <h4>Neumorphism <span>Smart home</span></h4>
+        <p>A climate controller for a Dhanmondi flat — soft extruded controls, tuned for readable contrast.</p>
+      </a>
+      <a class="study" href="concepts/neo-brutalism.html">
+        <div class="thumb"><img src="concepts/thumbs/neo-brutalism.webp" alt="Neo-brutalism style study: Tickets for a Dhaka zine and print fair: hard shadows, thick borders, a live total." loading="lazy" width="960" height="600"></div>
+        <h4>Neo-brutalism <span>Ticketing</span></h4>
+        <p>Tickets for a Dhaka zine and print fair: hard shadows, thick borders, a live total.</p>
+      </a>
+      <a class="study" href="concepts/bento.html">
+        <div class="thumb"><img src="concepts/thumbs/bento.webp" alt="Bento grid style study: A personal finance dashboard where one hero tile and mixed spans do the organising." loading="lazy" width="960" height="600"></div>
+        <h4>Bento grid <span>Finance</span></h4>
+        <p>A personal finance dashboard where one hero tile and mixed spans do the organising.</p>
+      </a>
+      <a class="study" href="concepts/claymorphism.html">
+        <div class="thumb"><img src="concepts/thumbs/claymorphism.webp" alt="Claymorphism style study: A Bangla alphabet app for five-year-olds, built from puffy, pressable tiles." loading="lazy" width="960" height="600"></div>
+        <h4>Claymorphism <span>Kids learning</span></h4>
+        <p>A Bangla alphabet app for five-year-olds, built from puffy, pressable tiles.</p>
+      </a>
+      <a class="study" href="concepts/aurora.html">
+        <div class="thumb"><img src="concepts/thumbs/aurora.webp" alt="Aurora gradient style study: A night-time sound player under a slowly drifting aurora." loading="lazy" width="960" height="600"></div>
+        <h4>Aurora gradient <span>Sleep sounds</span></h4>
+        <p>A night-time sound player under a slowly drifting aurora.</p>
+      </a>
+      <a class="study" href="concepts/swiss.html">
+        <div class="thumb"><img src="concepts/thumbs/swiss.webp" alt="Swiss style style study: A Metro Rail Line 6 timetable where type scale and a strict grid carry everything." loading="lazy" width="960" height="600"></div>
+        <h4>Swiss style <span>Transit</span></h4>
+        <p>A Metro Rail Line 6 timetable where type scale and a strict grid carry everything.</p>
+      </a>
+      <a class="study" href="concepts/skeuomorphic.html">
+        <div class="thumb"><img src="concepts/thumbs/skeuomorphic.webp" alt="Skeuomorphism style study: A walnut FM radio with a glass dial, brass grille and working presets." loading="lazy" width="960" height="600"></div>
+        <h4>Skeuomorphism <span>Radio</span></h4>
+        <p>A walnut FM radio with a glass dial, brass grille and working presets.</p>
+      </a>
+      <a class="study" href="concepts/y2k.html">
+        <div class="thumb"><img src="concepts/thumbs/y2k.webp" alt="Y2K retro-futurism style study: A landing page for a rooftop electronic night: chrome type over a synthwave grid." loading="lazy" width="960" height="600"></div>
+        <h4>Y2K retro-futurism <span>Event</span></h4>
+        <p>A landing page for a rooftop electronic night: chrome type over a synthwave grid.</p>
+      </a>
+      <a class="study" href="concepts/editorial.html">
+        <div class="thumb"><img src="concepts/thumbs/editorial.webp" alt="Editorial minimal style study: Book of the month for a small Aziz Market bookstall, set like a literary page." loading="lazy" width="960" height="600"></div>
+        <h4>Editorial minimal <span>Bookshop</span></h4>
+        <p>Book of the month for a small Aziz Market bookstall, set like a literary page.</p>
+      </a>
+      <a class="study" href="concepts/terminal.html">
+        <div class="thumb"><img src="concepts/thumbs/terminal.webp" alt="Terminal UI style study: A tmux-style monitoring console for a parcel-delivery backend during a failover." loading="lazy" width="960" height="600"></div>
+        <h4>Terminal UI <span>Dev tools</span></h4>
+        <p>A tmux-style monitoring console for a parcel-delivery backend during a failover.</p>
+      </a>
+      <a class="study" href="concepts/spatial.html">
+        <div class="thumb"><img src="concepts/thumbs/spatial.webp" alt="Spatial UI style study: A visionOS-style photo library of Bangladesh trips, in layered windows with parallax." loading="lazy" width="960" height="600"></div>
+        <h4>Spatial UI <span>Photos</span></h4>
+        <p>A visionOS-style photo library of Bangladesh trips, in layered windows with parallax.</p>
+      </a>
     </div>
   </section>
 
